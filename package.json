@@ -1,0 +1,26 @@
+{
+  "name": "option",
+  "version": "1.0.0",
+  "description": "A typed, standalone Option object for JavaScript",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
+  "keywords": [
+    "Option",
+    "Maybe",
+    "JS",
+    "Option"
+  ],
+  "author": "Samuel Bernheim",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jest": "^27.0.1",
+    "@types/node": "^16.6.1",
+    "jest": "^27.0.6",
+    "ts-jest": "^27.0.4",
+    "ts-node": "^10.2.0",
+    "typescript": "^4.3.5"
+  }
+}
