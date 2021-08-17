@@ -2,7 +2,7 @@
   "name": "excoptional",
   "version": "0.0.1",
   "description": "A typed, standalone Option object for JavaScript and Typescript",
-  "main": "index.ts",
+  "main": "build/index.js",
   "repository": "github:sbernheim4/Excoptional",
   "scripts": {
     "test": "jest",
