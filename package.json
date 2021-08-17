@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "A typed, standalone Option object for JavaScript and Typescript",
   "main": "index.ts",
+  "repository": "github:sbernheim4/Excoptional",
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watch",
