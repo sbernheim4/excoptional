@@ -1,11 +1,12 @@
 {
-  "name": "option",
-  "version": "1.0.0",
+  "name": "option.ts",
+  "version": "0.0.1",
   "description": "A typed, standalone Option object for JavaScript",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watch"
+    "build": "tsc"
   },
   "keywords": [
     "Option",
