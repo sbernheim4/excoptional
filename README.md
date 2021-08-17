@@ -1,4 +1,4 @@
-# Option
+# Option.ts
 
 A fully typed, zero-dependency implementation of the functional programming Option object for JavaScript and Typescript.
 
