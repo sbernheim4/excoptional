@@ -302,3 +302,11 @@ static of<A>(val?: A): Some<A> | None
 Static (aka curried) versions of map, and flatMap are also availale on the Option class.
 
 A static `of` method is also availale for instantiating instances of an Option.
+
+### Contributing
+1. Fork this repo
+2. Run an `npm install`
+3. Make your changes
+4. Run `tsc` to generate a build and validate your changes
+5. Add tests - tests are built with jest
+6. Open a PR
