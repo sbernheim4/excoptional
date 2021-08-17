@@ -1,7 +1,7 @@
 {
-  "name": "option.ts",
+  "name": "excoptional",
   "version": "0.0.1",
-  "description": "A typed, standalone Option object for JavaScript",
+  "description": "A typed, standalone Option object for JavaScript and Typescript",
   "main": "index.ts",
   "scripts": {
     "test": "jest",

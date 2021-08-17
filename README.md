@@ -1,4 +1,4 @@
-# Option.ts
+# Excoptional
 
 A fully typed, zero-dependency implementation of the functional programming Option object for JavaScript and Typescript.
 
@@ -57,7 +57,7 @@ const parsedVal = optionUpperCaseStr(myInputTwo);
 ## Getting Started
 
 ### Install the Module
-`npm install --save option`
+`npm install --save excoptional`
 
 ### Use the Module
 Instances of an Option can be created using the `Some()` and `None()` functions as you saw above. These functions can be imported directly off the module.
@@ -71,7 +71,7 @@ All 3 approaches are demonstrated below:
 Avoid using the `new` keyword to instantiate instances of an Option. In fact, the constructor is intentially declared as private for TypeScript users.
 
 ```ts
-import { Some, None, option } from "option";
+import { Some, None, option } from "excoptional";
 
 const appendIfValid = (val: string) => {
    if (val.length > 2) {
