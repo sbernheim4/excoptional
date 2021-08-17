@@ -1,74 +1,47 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Option = exports.Some = exports.None = void 0;
-// @ts-ignore
-var None = function () { return new Option(undefined); };
-exports.None = None;
-// @ts-ignore
-var Some = function (val) { return new Option(val); };
-exports.Some = Some;
-var Option = /** @class */ (function () {
+export declare const None: () => None;
+export declare const Some: <T>(val: T) => Some<T>;
+export declare type None = Option<undefined>;
+export declare type Some<A> = Option<A>;
+export declare class Option<A> {
+    private val;
     /**
      * Construct an instance of an Option.
      */
-    function Option(val) {
-        this.val = val;
-    }
+    private constructor();
     /**
      * Returns true if the instance is a None. Returns false otherwise
      */
-    Option.prototype.isNone = function () {
-        return this.val === undefined;
-    };
+    isNone(): boolean;
     /**
      * Returns true if the instance is a Some. Returns false otherwise
      */
-    Option.prototype.isSome = function () {
-        return this.val !== undefined;
-    };
+    isSome(): boolean;
     /**
      * An alias for isSome
      * Returns true if the instance is a Some. Returns false otherwise
      */
-    Option.prototype.exists = function () {
-        return this.isSome();
-    };
+    exists(): boolean;
     /**
      * An alias for isSome
      * Returns true if the instance is a Some. Returns false otherwise
      */
-    Option.prototype.nonEmpty = function () {
-        return this.isSome();
-    };
+    nonEmpty(): boolean;
     /**
      * Returns the underlying value if the instance is a Some. Otherwise returns
      * a None
      */
-    Option.prototype.get = function () {
-        return this.isSome() ?
-            this.val :
-            exports.None();
-    };
+    get(): A | Option<undefined>;
     /**
      * @note This method should ONLY be invoked AFTER validating the current
      * option is a Some.
      * @note Do not call this method. It is meant for internal use only.
      */
-    Option.prototype.internalGet = function () {
-        if (this.isSome()) {
-            return this.val;
-        }
-        throw new Error("Attempted to get a None. If you're seeing this something internal went wrong.\nPlease file a minimal working example in a Github Issue.\nThis error should never be thrown.");
-    };
+    private internalGet;
     /**
      * Returns the underlying value if it's a Some. Otherwise returns the
      * provided argument.
      */
-    Option.prototype.getOrElse = function (otherVal) {
-        return this.isSome() ?
-            this.internalGet() :
-            otherVal;
-    };
+    getOrElse<B>(otherVal: B): A | B;
     /**
      * Returns the current instance if it's a Some. Otherwise returns the
      * provided Option argument.
@@ -83,21 +56,13 @@ var Option = /** @class */ (function () {
      *     .orElse(fn4ReturnsOption())
      * ```
      */
-    Option.prototype.orElse = function (otherOption) {
-        return this.isSome() ?
-            this :
-            otherOption;
-    };
+    orElse<B>(otherOption: Option<B>): Option<A> | Option<B>;
     /**
      * Transforms and returns the underlying value if the instance is a Some by
      * applying the provided function to the underlying value. Otherwise returns
      * a None.
      */
-    Option.prototype.map = function (fn) {
-        return this.isSome() ?
-            exports.Some(fn(this.internalGet())) :
-            exports.None();
-    };
+    map<B>(fn: (val: A) => B): Some<B> | None;
     /**
      * A static version of map. Useful for lifting functions of type
      * (val: A) => B to be a function of type (val: Option<A>) => Option<B>.
@@ -121,27 +86,18 @@ var Option = /** @class */ (function () {
      * const anotherPossibleEmailAddress = appendToOptionString(otherOpt); // => None();
      * ```
      */
-    Option.map = function (fn) {
-        return function (opt) { return opt.map(fn); };
-    };
+    static map<B, A>(fn: (val: A) => B): (opt: Option<A>) => None | Some<B>;
     /**
      * Equivalent to map but returns the underlying value instead of a new
      * Option. Returns undefined if the instance is a None.
      */
-    Option.prototype.fold = function (fn) {
-        return this.map(fn)
-            .getOrElse(undefined);
-    };
+    fold<B>(fn: (val: A) => B): B | undefined;
     /**
      * Transforms and returns the underlying value if the instance is a Some by
      * applying the provided function to the underlying value. Otherwise returns
      * a None. Prefer this to map when the provided function returns an Option.
      */
-    Option.prototype.flatMap = function (fn) {
-        return this.isSome() ?
-            fn(this.internalGet()) :
-            exports.None();
-    };
+    flatMap<B>(fn: (val: A) => Option<B>): Some<B> | None;
     /**
      * A static version of flatMap. Useful for lifting functions of type
      * (val: A) => Option<B> to be a function of type
@@ -172,42 +128,24 @@ var Option = /** @class */ (function () {
      * const possiblyAnEmailAddress2 = Option.flatMap(appendIfValid)(opt)
      * ```
      */
-    Option.flatMap = function (fn) {
-        return function (opt) { return opt.flatMap(fn); };
-    };
+    static flatMap<B, A>(fn: (val: A) => Option<B>): (opt: Option<A>) => None | Some<B>;
     /**
      * Flattens a wrapped Option if the outermost layer is a Some. If the
      * instance is a None, a None is returned. If the underlying value is not an
      * Option, the instance is returned.
      */
-    Option.prototype.flatten = function () {
-        if (this.isNone()) {
-            return exports.None();
-        }
-        if (this.isSome() && this.get() instanceof Option) {
-            return this.internalGet();
-        }
-        return this;
-    };
+    flatten(): None | A | Some<A>;
     /**
      * Returns the instance if the underlying value passes the provided filter
      * function. Returns a None otherwise.
      */
-    Option.prototype.filter = function (filterFn) {
-        return this.isSome() && filterFn(this.internalGet()) ?
-            this :
-            exports.None();
-    };
+    filter(filterFn: (val: A) => boolean): Some<A> | None;
     /**
      * Returns the instance if the underlying value *fails* the provided filter
      * function. Returns a None otherwise.
      *
      */
-    Option.prototype.filterNot = function (filterFn) {
-        return this.isSome() && filterFn(this.internalGet()) ?
-            exports.None() :
-            this;
-    };
+    filterNot(filterFn: (val: A) => boolean): Some<A> | None;
     /**
      * Returns a true if the underlying value contains the provided argument.
      * Returns false otherwise.
@@ -216,30 +154,17 @@ var Option = /** @class */ (function () {
      * when the underlying value is not a primitive. By default this equality
      * function is JavaScript's ===.
      */
-    Option.prototype.contains = function (val, equalityFn) {
-        if (equalityFn === void 0) { equalityFn = function (valOne, valTwo) { return valOne === valTwo; }; }
-        return this.isSome() && equalityFn(this.internalGet(), val) ?
-            true :
-            false;
-    };
+    contains(val: A, equalityFn?: (valOne: A, valTwo: A) => boolean): boolean;
     /**
      * Returns an Array with the underlying value when the instance is a Some.
      * Returns an empty Array otherwise.
      */
-    Option.prototype.toArray = function () {
-        return this.isSome() ?
-            [this.internalGet()] :
-            [];
-    };
+    toArray(): [A] | [];
     /**
      * Returns a Set containing the underlying value when the instance is a
      * Some. Returns an empty Set otherwise.
      */
-    Option.prototype.toSet = function () {
-        return this.isSome() ?
-            new Set().add(this.internalGet()) :
-            new Set();
-    };
+    toSet(): Set<A>;
     /**
      * Logs the instance for easy debugging
      *
@@ -249,20 +174,10 @@ var Option = /** @class */ (function () {
      * console.log(None()); // => "None()"
      * ```
      */
-    Option.prototype.toString = function () {
-        return this.isSome() ?
-            "Some(" + this.internalGet() + ")" :
-            "None()";
-    };
+    toString(): string;
     /**
      * Returns an instance of an Option using the value passed to it
      * (if provided). Equivalent to using Some() or None() functions.
      */
-    Option.of = function (val) {
-        return val ?
-            exports.Some(val) :
-            exports.None();
-    };
-    return Option;
-}());
-exports.Option = Option;
+    static of<A>(val?: A): Some<A> | None;
+}

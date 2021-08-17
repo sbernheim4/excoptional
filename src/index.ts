@@ -47,7 +47,8 @@ export class Option<A> {
     }
 
     /**
-     * Returns the underlying value if the instance is a Some. Otherwise returns a None
+     * Returns the underlying value if the instance is a Some. Otherwise returns
+     * a None
      */
     get(): A | Option<undefined>{
         return this.isSome() ?
@@ -56,7 +57,8 @@ export class Option<A> {
     }
 
     /**
-     * @note This method should ONLY be invoked AFTER validating the current option is a Some.
+     * @note This method should ONLY be invoked AFTER validating the current
+     * option is a Some.
      * @note Do not call this method. It is meant for internal use only.
      */
     private internalGet(): A {
@@ -72,7 +74,8 @@ This error should never be thrown.`
     }
 
     /**
-     * Returns the underlying value if it's a Some. Otherwise returns the provided argument.
+     * Returns the underlying value if it's a Some. Otherwise returns the
+     * provided argument.
      */
     getOrElse<B>(otherVal: B): A | B {
         return this.isSome() ?
@@ -81,9 +84,11 @@ This error should never be thrown.`
     }
 
     /**
-     * Returns the current instance if it's a Some. Otherwise returns the provided Option argument.
+     * Returns the current instance if it's a Some. Otherwise returns the
+     * provided Option argument.
      *
-     * @remarks Useful for chaining successive function calls that each return an option
+     * @remarks Useful for chaining successive function calls that each return
+     * an option
      * @example
      * ```
      * const firstSuccessfulOptionValue = fnReturnsOption
@@ -99,8 +104,9 @@ This error should never be thrown.`
     }
 
     /**
-     * Transforms and returns the underlying value if the instance is a Some by applying the provided function to the
-     * underlying value. Otherwise returns a None.
+     * Transforms and returns the underlying value if the instance is a Some by
+     * applying the provided function to the underlying value. Otherwise returns
+     * a None.
      */
     map<B>(fn: (val: A) => B): Some<B> | None {
         return this.isSome() ?
@@ -109,10 +115,11 @@ This error should never be thrown.`
     }
 
     /**
-     * A static version of map. Useful for lifting functions of type (val: A) => B to be a function of type
-     * (val: Option<A>) => Option<B>.
+     * A static version of map. Useful for lifting functions of type
+     * (val: A) => B to be a function of type (val: Option<A>) => Option<B>.
      *
-     * A curried version of map. First accepts the transformation function, then the option.
+     * A curried version of map. First accepts the transformation function,
+     * then the option.
      *
      * @example
      * ```
@@ -122,7 +129,8 @@ This error should never be thrown.`
      * const opt = Some("johnsmith");
      * const otherOpt = None();
      *
-     * // Create a version of appendToString that works on values that are Options
+     * // Create a version of appendToString that works on values that are
+     * // Options
      * const appendToOptionString = Option.map(appendToString);
      *
      * const possiblyAnEmailAddress = appendToOptionString(opt); // => Some("johnsmith@gmail.com")
@@ -134,8 +142,8 @@ This error should never be thrown.`
     }
 
     /**
-     * Equivalent to map but returns the underlying value instead of a new Option. Returns undefined if the instance is
-     * a None.
+     * Equivalent to map but returns the underlying value instead of a new
+     * Option. Returns undefined if the instance is a None.
      */
     fold<B>(fn: (val: A) => B): B | undefined {
         return this.map(fn)
@@ -143,8 +151,9 @@ This error should never be thrown.`
     }
 
     /**
-     * Transforms and returns the underlying value if the instance is a Some by applying the provided function to the
-     * underlying value. Otherwise returns a None. Prefer this to map when the provided function returns an Option.
+     * Transforms and returns the underlying value if the instance is a Some by
+     * applying the provided function to the underlying value. Otherwise returns
+     * a None. Prefer this to map when the provided function returns an Option.
      */
     flatMap<B>(fn: (val: A) => Option<B>): Some<B> | None {
         return this.isSome() ?
@@ -153,10 +162,12 @@ This error should never be thrown.`
     }
 
     /**
-     * A static version of flatMap. Useful for lifting functions of type (val: A) => Option<B> to be a function of type
+     * A static version of flatMap. Useful for lifting functions of type
+     * (val: A) => Option<B> to be a function of type
      * (val: Option<A>) => Option<B>
      *
-     * A curried version of flatMap. First accepts the transformation function, then the option.
+     * A curried version of flatMap. First accepts the transformation function,
+     * then the option.
      *
      * @example
      * ```
@@ -185,8 +196,9 @@ This error should never be thrown.`
     }
 
     /**
-     * Flattens a wrapped Option if the outermost layer is a Some. If the instance is a None, a None is returned. If the
-     * underlying value is not an Option, the instance is returned.
+     * Flattens a wrapped Option if the outermost layer is a Some. If the
+     * instance is a None, a None is returned. If the underlying value is not an
+     * Option, the instance is returned.
      */
     flatten(): None | A | Some<A> {
         if (this.isNone()) {
@@ -201,7 +213,8 @@ This error should never be thrown.`
     }
 
     /**
-     * Returns the instance if the underlying value passes the provided filter function. Returns a None otherwise.
+     * Returns the instance if the underlying value passes the provided filter
+     * function. Returns a None otherwise.
      */
     filter(filterFn: (val: A) => boolean): Some<A> | None {
         return this.isSome() && filterFn(this.internalGet()) ?
@@ -210,7 +223,8 @@ This error should never be thrown.`
     }
 
     /**
-     * Returns the instance if the underlying value *fails* the provided filter function. Returns a None otherwise.
+     * Returns the instance if the underlying value *fails* the provided filter
+     * function. Returns a None otherwise.
      *
      */
     filterNot(filterFn: (val: A) => boolean): Some<A> | None {
@@ -220,10 +234,12 @@ This error should never be thrown.`
     }
 
     /**
-     * Returns a true if the underlying value contains the provided argument. Returns false otherwise.
+     * Returns a true if the underlying value contains the provided argument.
+     * Returns false otherwise.
      *
-     * @remarks Accepts an optional equality function for comparing two values when the underlying value is not a
-     * primitive. By default this equality function is JavaScript's ===.
+     * @remarks Accepts an optional equality function for comparing two values
+     * when the underlying value is not a primitive. By default this equality
+     * function is JavaScript's ===.
      */
     contains(
         val: A,
@@ -235,7 +251,8 @@ This error should never be thrown.`
     }
 
     /**
-     * Returns an Array with the underlying value when the instance is a Some. Returns an empty Array otherwise.
+     * Returns an Array with the underlying value when the instance is a Some.
+     * Returns an empty Array otherwise.
      */
     toArray(): [A] | [] {
         return this.isSome() ?
@@ -244,7 +261,8 @@ This error should never be thrown.`
     }
 
     /**
-     * Returns a Set containing the underlying value when the instance is a Some. Returns an empty Set otherwise.
+     * Returns a Set containing the underlying value when the instance is a
+     * Some. Returns an empty Set otherwise.
      */
     toSet(): Set<A> {
         return this.isSome() ?
@@ -268,8 +286,8 @@ This error should never be thrown.`
     }
 
     /**
-     * Returns an instance of an Option using the value passed to it (if provided). Equivalent to using Some() or
-     * None() functions.
+     * Returns an instance of an Option using the value passed to it
+     * (if provided). Equivalent to using Some() or None() functions.
      */
     static of<A>(val?: A): Some<A> | None {
         return val ?

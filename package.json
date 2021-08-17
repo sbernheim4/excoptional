@@ -3,6 +3,7 @@
   "version": "0.0.2",
   "description": "A typed, standalone Option object for JavaScript and Typescript",
   "main": "build/index.js",
+  "types": "build/index.d.ts",
   "repository": "github:sbernheim4/Excoptional",
   "scripts": {
     "test": "jest",
