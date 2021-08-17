@@ -1,30 +1,32 @@
+// @ts-ignore
 export const None = (): None => new Option(undefined);
+// @ts-ignore
 export const Some = <T>(val: T): Some<T> => new Option(val);
 
 export type None = Option<undefined>;
 export type Some<A> = Option<A>;
 
-class Option<A> {
+export class Option<A> {
     private val: A;
 
     /**
      * Construct an instance of an Option.
      */
-    constructor(val: A) {
+    private constructor(val: A) {
         this.val = val;
     }
 
     /**
      * Returns true if the instance is a None. Returns false otherwise
      */
-    isNone() {
+    isNone(): boolean {
         return this.val === undefined;
     }
 
     /**
      * Returns true if the instance is a Some. Returns false otherwise
      */
-    isSome() {
+    isSome(): boolean {
         return this.val !== undefined;
     }
 
@@ -32,7 +34,7 @@ class Option<A> {
      * An alias for isSome
      * Returns true if the instance is a Some. Returns false otherwise
      */
-    exists() {
+    exists(): boolean {
         return this.isSome();
     }
 
@@ -40,7 +42,7 @@ class Option<A> {
      * An alias for isSome
      * Returns true if the instance is a Some. Returns false otherwise
      */
-    nonEmpty() {
+    nonEmpty(): boolean {
         return this.isSome();
     }
 
@@ -70,7 +72,7 @@ This error should never be thrown.`
     }
 
     /**
-     * Returns the underlying value if its a Some. Otherwise returns the provided argument.
+     * Returns the underlying value if it's a Some. Otherwise returns the provided argument.
      */
     getOrElse<B>(otherVal: B): A | B {
         return this.isSome() ?
@@ -79,7 +81,7 @@ This error should never be thrown.`
     }
 
     /**
-     * Returns the current instance if its a Some. Otherwise returns the provided Option argument.
+     * Returns the current instance if it's a Some. Otherwise returns the provided Option argument.
      *
      * @remarks Useful for chaining successive function calls that each return an option
      * @example
@@ -127,7 +129,7 @@ This error should never be thrown.`
      * const anotherPossibleEmailAddress = appendToOptionString(otherOpt); // => None();
      * ```
      */
-    static map<B, A>(fn: (val: A) => B) {
+    static map<B, A>(fn: (val: A) => B): (opt: Option<A>) => None | Some<B> {
         return (opt: Option<A>) => opt.map(fn);
     }
 
@@ -226,7 +228,7 @@ This error should never be thrown.`
     contains(
         val: A,
         equalityFn: (valOne: A, valTwo: A) => boolean = (valOne, valTwo) => valOne === valTwo
-    ) {
+    ): boolean {
         return this.isSome() && equalityFn(this.internalGet(), val) ?
             true :
             false;
@@ -259,12 +261,16 @@ This error should never be thrown.`
      * console.log(None()); // => "None()"
      * ```
      */
-    toString() {
+    toString(): string {
         return this.isSome() ?
             `Some(${this.internalGet()})`:
             "None()";
     }
 
+    /**
+     * Returns an instance of an Option using the value passed to it (if provided). Equivalent to using Some() or
+     * None() functions.
+     */
     static of<A>(val?: A): Some<A> | None {
         return val ?
             Some(val) :
