@@ -14,7 +14,8 @@
 
     "baseUrl": "./",
     "typeRoots": [
-        "./node_modules/@types"
+        "./node_modules/@types",
+        "./build/index.d"
     ],
 
     "noImplicitAny": true,
