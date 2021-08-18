@@ -31,14 +31,17 @@ describe("None", () => {
     });
 
     test("map", () => {
+        // @ts-ignore
         expect(None().map(val => val + "5")).toStrictEqual(None());
     });
 
     test("fold", () => {
+        // @ts-ignore
         expect(None().fold(val => val + "5")).toBeUndefined();
     });
 
     test("flatMap", () => {
+        // @ts-ignore
         expect(None().flatMap(val => Some(val + "10"))).toStrictEqual(None());
     });
 
@@ -70,6 +73,6 @@ describe("None", () => {
     });
 
     test("toString", () => {
-        expect(None().toString()).toBe("None()");
+        expect(None().toString()).toBe("None");
     });
 });
