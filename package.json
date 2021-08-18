@@ -6,8 +6,8 @@
   "types": "build/index.d.ts",
   "repository": "github:sbernheim4/Excoptional",
   "scripts": {
-    "test": "jest",
-    "test:watch": "jest --watch",
+    "test": "jest --coverage",
+    "test:watch": "jest --watch --coverage",
     "build": "tsc"
   },
   "keywords": [
