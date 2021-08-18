@@ -1,15 +1,17 @@
 # Excoptional
 
-A fully typed, zero-dependency implementation of the functional programming Option object for JavaScript and Typescript.
+A fully typed, zero-dependency implementation of the functional programming Option object for JavaScript and TypeScript.
 
 Options are incredibly useful for functions that may or may not return a value (ie, succeed or fail) and help avoid tedious and repetitive checks to determine if a value is `null` or `undefined` before manipulating them.
 
-> This library should never throw an error. If it does, something very interesting went wrong. Please file an issue.
+This library is simple and provides the best possible TypeScript support for autocomplete, type hints and more.
 
-### Quick Example
+### Benefits of Options (and this specific pacakge)
+
+> All the code examples below are runnable in a TypeScript environment with this package installed.
+
+Without options, `null` and `undefined` checks are often necessary before manipulating a function's argument (even in TS codebases).
 ```ts
-// Without options, null and undefined checks are often needed before
-// manipulating the value.
 const uppercaseStrOne = (value: string): string => {
     if (value !== null && value !== undefined) {
         return value.toUpperCase();
@@ -20,38 +22,40 @@ const uppercaseStrOne = (value: string): string => {
 
 const myInputOne = "hello world";
 
-// could be null (or whatever the author of this function decides when the
-// condition is false).
+// parsedInput could be null (or whatever the author of uppercaseStrOne
+// function decides when the condition is false).
 const parsedInput = uppercaseStrOne(myInputOne);
+```
 
-// With options, no null and undefined checks are needed before manipulating the
-// value.
+With options, no `null` and `undefined` checks are needed before manipulating the value.
+```ts
+import { Option } from "excoptional";
+
 const uppercaseStrTwo = (value: Option<string>): Option<string> => {
     value.map(str => str.toUpperCase());
 }
 
 const myInputTwo = Some("hello world");
 const myParsedString = uppercaseStrTwo(myInputTwo).getOrElse("whatever we want");
+```
 
-// The argument and return type of the function changes from a `string` to an
-// Option<string> indicating that this function may succeed or fail, forcing the
-// caller to handle both situations. The caller avoids needing to perform an
-// additional check of the returned value to see if it's also null (or whatever
-// default value the author of the function chose) or a string since it's always
-// an Option, no matter what's inside. The caller, instead of the author,
-// decides what the value should be if there was no string via `getOrElse`.
+* The argument and return type of the function changes from a `string` to an `Option<string>` explicitly indicating that this function may succeed or fail.
+* The caller of `uppercaseStrTwo` is forced to eventually handle both scenarios, but can continue to safely manipulate the underlying value via `map` and other available methods.
+* The caller avoids additional `null` and `undefined` checks of the returned value.
+* The caller, instead of the function author, determines the fallback value if the Option does not contain a value (via the `getOrElse` method).
 
+This package provides a mechanism to seamlessly transform functions like `uppercaseStrOne` into `uppercaseStrTwo`; That is, functions that work on non `Option` values to functions that do work on `Option` values without rewriting all your functions. This way, you can reuse as much of your existing code as possible.
 
-// One last note. This library makes it seamless to transform functions like the
-// uppercaseStrOne to uppercaseStrTwo so you can reuse your existing code as
-// much as possible without having to rewrite all your functions and types. No
-// conversion necessary
+```ts
+import { Option } from "excoptional";
 
-// Using the original function implementation.
+// Using the original function upperCaseStrOne and the static version of map
+// from this package, we create a upper case function that works
+// on Option<string>.
 const optionUpperCaseStr = Option.map(upperCaseStrOne);
 
-// passing an Option as the argument yields => Some("HELLO WORLD");
-const parsedVal = optionUpperCaseStr(myInputTwo);
+// Invoke the new function passing in an Option as the argument
+const parsedVal = optionUpperCaseStr(myInputTwo); // => Some("HELLO WORLD"); | None;
 ```
 
 ## Getting Started
@@ -60,20 +64,23 @@ const parsedVal = optionUpperCaseStr(myInputTwo);
 `npm install --save excoptional`
 
 ### Use the Module
-Instances of an Option can be created using the `Some()` and `None()` functions as you saw above. These functions can be imported directly off the module.
+Instances of an `Option` can be created using the `Some()` and `None()` functions, or the static `of` method off the `Option` class. These can all be imported off the module.
+```ts
+import { Some, None, Option } from "excoptional";
 
-`Some` takes one argument (the value) while `None` takes no arguments.
+const myFirstOption = Some(42);
+const mySecondOption = None();
+const myThridOption = Option.of("Hello World") // Equivalent to Some("Hello World");
+const myFourthOption = Option.of() // Equivalent to None();
+```
+`Some` takes one argument (the value) while `None` takes no arguments. The value to `Some` or `Option.of` can be anything, a primitive, javascript object, etc.
 
-Another way of creating instances of an Option is via the static `of` method on the Option class. Import the class and call the static `of` method passing in a value if it exists.
-
-All 3 approaches are demonstrated below:
-
-Avoid using the `new` keyword to instantiate instances of an Option. In fact, the constructor is intentially declared as private for TypeScript users.
+> Avoid using the `new` keyword to instantiate instances of an `Option`. In fact, the constructor is intentially declared as private for TypeScript users to avoid this possibility.
 
 ```ts
 import { Some, None, option } from "excoptional";
 
-const appendIfValid = (val: string) => {
+const appendIfValid = (val: string): Option<string> => {
    if (val.length > 2) {
         return Some(val);
     } else {
@@ -102,9 +109,34 @@ const result = yetAnotherOption
         }
     })
     .orElse(ourFinalOption) //=> Some('wow');
-
-console.log(result); // => "Some('wow')"
 ```
+
+### Best Practices and Notes
+
+#### Logging Options
+
+When writing a function that retuns an `Option`, it's best to type that function's return type as an `Option<T>` rather than `Some<T> | None`. This helps the compiler provide better type inference and provides a better experience.
+
+When doing `console.log(myOpt);` it's best to do `console.log(myOpt.toString())`. This provides better output. JavaScript does not automatically invoke an object's `toString` method by default.
+
+For convenience, there is a shorter named equivalent `.toStr` method.
+
+Additionally, there is a convenience `.log` method which will call `console.log` and the `toString` method for you.
+
+#### `flatten` Method Behavior
+When calling the `flatten` method
+* if the current `Option` is a `None`, a `None` will be returned.
+* if the current `Option` is a `Some` but the underlying value is not an `Option`, the instance is returned.
+* if and only if, the instance is a `Some` **and the underlying value is an `Option`**, will the underlying value be returned.
+
+In essence, this method is guaranteed to always return an `Option` and never throw an error. In fact, this package should **never** throw an error.
+
+If it does, please file an issue.
+
+#### Types
+* `None` and `Option<undefined>` are equivalent.
+* `Some<T>` and `Option<T>` are equivalent (where T is anything but `undefined` or `null`).
+* You should never need to create an `Option` to hold `null` or `undefined`. `None` should replace any instances of `null` and `undefined`.
 
 ### Methods
 
@@ -293,15 +325,31 @@ toSet(): Set<A>
 toString()
 
 /**
+ * An alias for toString();
+ */
+toStr(): string {
+    return this.toString();
+}
+
+/**
+ * Logs the option to the console.
+ *
+ * @example
+ * ```
+ * Some(3).log(); // => "Some(3)"
+ * None().log(); // => "None"
+ * ```
+ */
+log(): void {
+    console.log(this.toString());
+}
+
+/**
  * Returns an instance of an Option using the value passed to it (if provided).
  * Equivalent to using Some() or None() functions.
  */
 static of<A>(val?: A): Some<A> | None
 ```
-
-Static (aka curried) versions of map, and flatMap are also availale on the Option class.
-
-A static `of` method is also availale for instantiating instances of an Option.
 
 ### Contributing
 1. Fork this repo
