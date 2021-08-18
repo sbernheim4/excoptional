@@ -78,7 +78,7 @@ const myFourthOption = Option.of() // Equivalent to None();
 > Avoid using the `new` keyword to instantiate instances of an `Option`. In fact, the constructor is intentially declared as private for TypeScript users to avoid this possibility.
 
 ```ts
-import { Some, None, option } from "excoptional";
+import { Some, None, Option } from "excoptional";
 
 const appendIfValid = (val: string): Option<string> => {
    if (val.length > 2) {
@@ -96,8 +96,8 @@ myOtherOption.map(val => val.toUpperCase()); // None();
 
 
 // Instantiate an instance of an Option via the static of method
-const yetAnotherOption = option.of(); // => None();
-const ourFinalOption = option.of("wow"); // => Some("wow");
+const yetAnotherOption = Option.of(); // => None();
+const ourFinalOption = Option.of("wow"); // => Some("wow");
 
 // and use them as any other option
 const result = yetAnotherOption
@@ -111,17 +111,38 @@ const result = yetAnotherOption
     .orElse(ourFinalOption) //=> Some('wow');
 ```
 
-### Best Practices and Notes
+### Notes and Best Practices
 
-#### Logging Options
-
+#### Typing Functions that Return Options
 When writing a function that retuns an `Option`, it's best to type that function's return type as an `Option<T>` rather than `Some<T> | None`. This helps the compiler provide better type inference and provides a better experience.
 
+```ts
+// Bad ❌
+const myFunc = (): Some<number> | None => {
+    return Math.random() * 100 > 50 Some("Success") : None();
+}
+
+// Good ✅
+const myFunc = (): Option<number> => {
+    return Math.random() * 100 > 50 Some("Success") : None();
+}
+```
+
+#### Logging Options
 When doing `console.log(myOpt);` it's best to do `console.log(myOpt.toString())`. This provides better output. JavaScript does not automatically invoke an object's `toString` method by default.
 
 For convenience, there is a shorter named equivalent `.toStr` method.
 
 Additionally, there is a convenience `.log` method which will call `console.log` and the `toString` method for you.
+
+```ts
+const myOpt = Some("Hello World");
+
+// The below are all equivalent
+console.log(myOpt.toString());
+console.log(myOpt.toStr();
+myOpt.log();
+```
 
 #### `flatten` Method Behavior
 When calling the `flatten` method
@@ -358,3 +379,4 @@ static of<A>(val?: A): Some<A> | None
 4. Run `tsc` to generate a build and validate your changes
 5. Add tests - tests are built with jest
 6. Open a PR
+

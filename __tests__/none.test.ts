@@ -1,4 +1,4 @@
-import { None, Some } from "./../src";
+import { None, Option, Some } from "./../src";
 
 describe("None", () => {
 
@@ -74,5 +74,24 @@ describe("None", () => {
 
     test("toString", () => {
         expect(None().toString()).toBe("None");
+    });
+
+    test("toStr", () => {
+        expect(None().toStr()).toBe("None");
+    });
+
+    test("log", () => {
+        const consoleLogSpy = jest.spyOn(console, "log").mockImplementation(() => {});
+        const myOpt = None();
+
+        myOpt.log();
+
+        expect(consoleLogSpy).toHaveBeenCalled();
+
+        consoleLogSpy.mockClear();
+    });
+
+    test("static of", () => {
+        expect(Option.of()).toStrictEqual(None());
     });
 });

@@ -1,4 +1,4 @@
-import { None, Some } from "./../src";
+import { None, Option, Some } from "./../src";
 
 describe("Some", () => {
 
@@ -34,12 +34,28 @@ describe("Some", () => {
         expect(Some(3).map(val => val + "5")).toStrictEqual(Some("35"));
     });
 
+    test("static map", () => {
+        const multiplyByTen = (val: number): number => val * 10;
+        const optMultiplyByTen = Option.map(multiplyByTen);
+        const myOpt = Some(3);
+
+        expect(optMultiplyByTen(myOpt)).toStrictEqual(Some(30));
+    });
+
     test("fold", () => {
         expect(Some(3).fold(val => val + "5")).toBe("35");
     });
 
     test("flatMap", () => {
         expect(Some(3).flatMap(val => Some(val + "10"))).toStrictEqual(Some("310"));
+    });
+
+    test("static flatMap", () => {
+        const multiplyByTen = (val: number): Option<number> => Some(val * 10);
+        const optMultiplyByTen = Option.flatMap(multiplyByTen);
+        const myOpt = Some(3);
+
+        expect(optMultiplyByTen(myOpt)).toStrictEqual(Some(30));
     });
 
     test("flatten", () => {
@@ -95,5 +111,25 @@ describe("Some", () => {
     test("toString", () => {
         expect(Some(3).toString()).toBe("Some(3)");
     });
+
+    test("toStr", () => {
+        expect(Some(3).toStr()).toBe("Some(3)");
+    });
+
+    test("log", () => {
+        const consoleLogSpy = jest.spyOn(console, "log").mockImplementation(() => {});
+        const myOpt = Some(30);
+
+        myOpt.log();
+
+        expect(consoleLogSpy).toHaveBeenCalled();
+
+        consoleLogSpy.mockClear();
+    });
+
+    test("static of", () => {
+        expect(Option.of(30)).toStrictEqual(Some(30));
+    });
+
 });
 
