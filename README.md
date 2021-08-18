@@ -49,10 +49,10 @@ This package provides a mechanism to seamlessly transform functions like `upperc
 ```ts
 import { Option } from "excoptional";
 
-// Using the original function upperCaseStrOne and the static version of map
+// Using the original function uppercaseStrOne and the static version of map
 // from this package, we create a upper case function that works
 // on Option<string>.
-const optionUpperCaseStr = Option.map(upperCaseStrOne);
+const optionUpperCaseStr = Option.map(uppercaseStrOne);
 
 // Invoke the new function passing in an Option as the argument
 const parsedVal = optionUpperCaseStr(myInputTwo); // => Some("HELLO WORLD"); | None;
