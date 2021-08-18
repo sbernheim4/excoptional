@@ -1,7 +1,7 @@
-export declare const None: () => None;
+export declare const None: () => any;
 export declare const Some: <T>(val: T) => Some<T>;
-export declare type None = Option<undefined>;
 export declare type Some<A> = Option<A>;
+export declare type None = Option<undefined>;
 export declare class Option<A> {
     private val;
     /**
@@ -62,7 +62,7 @@ export declare class Option<A> {
      * applying the provided function to the underlying value. Otherwise returns
      * a None.
      */
-    map<B>(fn: (val: A) => B): Some<B> | None;
+    map<B>(fn: (val: A) => B): Option<B>;
     /**
      * A static version of map. Useful for lifting functions of type
      * (val: A) => B to be a function of type (val: Option<A>) => Option<B>.
@@ -86,7 +86,7 @@ export declare class Option<A> {
      * const anotherPossibleEmailAddress = appendToOptionString(otherOpt); // => None();
      * ```
      */
-    static map<B, A>(fn: (val: A) => B): (opt: Option<A>) => None | Some<B>;
+    static map<B, A>(fn: (val: A) => B): (opt: Option<A>) => Option<B>;
     /**
      * Equivalent to map but returns the underlying value instead of a new
      * Option. Returns undefined if the instance is a None.
@@ -97,7 +97,7 @@ export declare class Option<A> {
      * applying the provided function to the underlying value. Otherwise returns
      * a None. Prefer this to map when the provided function returns an Option.
      */
-    flatMap<B>(fn: (val: A) => Option<B>): Some<B> | None;
+    flatMap<B>(fn: (val: A) => Option<B>): Option<B>;
     /**
      * A static version of flatMap. Useful for lifting functions of type
      * (val: A) => Option<B> to be a function of type
@@ -128,7 +128,7 @@ export declare class Option<A> {
      * const possiblyAnEmailAddress2 = Option.flatMap(appendIfValid)(opt)
      * ```
      */
-    static flatMap<B, A>(fn: (val: A) => Option<B>): (opt: Option<A>) => None | Some<B>;
+    static flatMap<B, A>(fn: (val: A) => Option<B>): (opt: Option<A>) => Option<B>;
     /**
      * Flattens a wrapped Option if the outermost layer is a Some. If the
      * instance is a None, a None is returned. If the underlying value is not an
@@ -139,13 +139,13 @@ export declare class Option<A> {
      * Returns the instance if the underlying value passes the provided filter
      * function. Returns a None otherwise.
      */
-    filter(filterFn: (val: A) => boolean): Some<A> | None;
+    filter(filterFn: (val: A) => boolean): Option<A>;
     /**
      * Returns the instance if the underlying value *fails* the provided filter
      * function. Returns a None otherwise.
      *
      */
-    filterNot(filterFn: (val: A) => boolean): Some<A> | None;
+    filterNot(filterFn: (val: A) => boolean): Option<A>;
     /**
      * Returns a true if the underlying value contains the provided argument.
      * Returns false otherwise.
@@ -171,13 +171,27 @@ export declare class Option<A> {
      * @example
      * ```
      * console.log(Some(3)); // => "Some(3)"
-     * console.log(None()); // => "None()"
+     * console.log(None); // => "None"
      * ```
      */
     toString(): string;
     /**
+     * An alias for toString();
+     */
+    toStr(): string;
+    /**
+     * Logs the option to the console.
+     *
+     * @example
+     * ```
+     * Some(3).log(); // => "Some(3)"
+     * None().log(); // => "None"
+     * ```
+     */
+    log(): void;
+    /**
      * Returns an instance of an Option using the value passed to it
      * (if provided). Equivalent to using Some() or None() functions.
      */
-    static of<A>(val?: A): Some<A> | None;
+    static of<A>(val?: A): Option<A>;
 }

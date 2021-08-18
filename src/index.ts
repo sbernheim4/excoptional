@@ -1,10 +1,10 @@
 // @ts-ignore
-export const None = (): None => new Option(undefined);
+export const None = () => new Option(undefined);
 // @ts-ignore
 export const Some = <T>(val: T): Some<T> => new Option(val);
 
-export type None = Option<undefined>;
 export type Some<A> = Option<A>;
+export type None = Option<undefined>;
 
 export class Option<A> {
     private val: A;
@@ -108,7 +108,7 @@ This error should never be thrown.`
      * applying the provided function to the underlying value. Otherwise returns
      * a None.
      */
-    map<B>(fn: (val: A) => B): Some<B> | None {
+    map<B>(fn: (val: A) => B): Option<B> {
         return this.isSome() ?
             Some(fn(this.internalGet())):
             None();
@@ -137,7 +137,7 @@ This error should never be thrown.`
      * const anotherPossibleEmailAddress = appendToOptionString(otherOpt); // => None();
      * ```
      */
-    static map<B, A>(fn: (val: A) => B): (opt: Option<A>) => None | Some<B> {
+    static map<B, A>(fn: (val: A) => B): (opt: Option<A>) => Option<B> {
         return (opt: Option<A>) => opt.map(fn);
     }
 
@@ -155,7 +155,7 @@ This error should never be thrown.`
      * applying the provided function to the underlying value. Otherwise returns
      * a None. Prefer this to map when the provided function returns an Option.
      */
-    flatMap<B>(fn: (val: A) => Option<B>): Some<B> | None {
+    flatMap<B>(fn: (val: A) => Option<B>): Option<B> {
         return this.isSome() ?
             fn(this.internalGet()):
             None();
@@ -191,7 +191,7 @@ This error should never be thrown.`
      * const possiblyAnEmailAddress2 = Option.flatMap(appendIfValid)(opt)
      * ```
      */
-    static flatMap<B, A>(fn: (val: A) => Option<B>): (opt: Option<A>) => None | Some<B> {
+    static flatMap<B, A>(fn: (val: A) => Option<B>): (opt: Option<A>) => Option<B> {
         return (opt: Option<A>) => opt.flatMap(fn);
     }
 
@@ -209,6 +209,7 @@ This error should never be thrown.`
             return this.internalGet();
         }
 
+        // `this` must be a Some whose underlying value is *not* a Some
         return this;
     }
 
@@ -216,7 +217,7 @@ This error should never be thrown.`
      * Returns the instance if the underlying value passes the provided filter
      * function. Returns a None otherwise.
      */
-    filter(filterFn: (val: A) => boolean): Some<A> | None {
+    filter(filterFn: (val: A) => boolean): Option<A> {
         return this.isSome() && filterFn(this.internalGet()) ?
             this:
             None();
@@ -227,7 +228,7 @@ This error should never be thrown.`
      * function. Returns a None otherwise.
      *
      */
-    filterNot(filterFn: (val: A) => boolean): Some<A> | None {
+    filterNot(filterFn: (val: A) => boolean): Option<A> {
         return this.isSome() && filterFn(this.internalGet()) ?
             None() :
             this;
@@ -276,20 +277,40 @@ This error should never be thrown.`
      * @example
      * ```
      * console.log(Some(3)); // => "Some(3)"
-     * console.log(None()); // => "None()"
+     * console.log(None); // => "None"
      * ```
      */
     toString(): string {
         return this.isSome() ?
             `Some(${this.internalGet()})`:
-            "None()";
+            "None";
+    }
+
+    /**
+     * An alias for toString();
+     */
+    toStr(): string {
+        return this.toString();
+    }
+
+    /**
+     * Logs the option to the console.
+     *
+     * @example
+     * ```
+     * Some(3).log(); // => "Some(3)"
+     * None().log(); // => "None"
+     * ```
+     */
+    log(): void {
+        console.log(this.toString());
     }
 
     /**
      * Returns an instance of an Option using the value passed to it
      * (if provided). Equivalent to using Some() or None() functions.
      */
-    static of<A>(val?: A): Some<A> | None {
+    static of<A>(val?: A): Option<A> {
         return val ?
             Some(val) :
             None();

@@ -187,6 +187,7 @@ var Option = /** @class */ (function () {
         if (this.isSome() && this.get() instanceof Option) {
             return this.internalGet();
         }
+        // `this` must be a Some whose underlying value is *not* a Some
         return this;
     };
     /**
@@ -246,13 +247,31 @@ var Option = /** @class */ (function () {
      * @example
      * ```
      * console.log(Some(3)); // => "Some(3)"
-     * console.log(None()); // => "None()"
+     * console.log(None); // => "None"
      * ```
      */
     Option.prototype.toString = function () {
         return this.isSome() ?
             "Some(" + this.internalGet() + ")" :
-            "None()";
+            "None";
+    };
+    /**
+     * An alias for toString();
+     */
+    Option.prototype.toStr = function () {
+        return this.toString();
+    };
+    /**
+     * Logs the option to the console.
+     *
+     * @example
+     * ```
+     * Some(3).log(); // => "Some(3)"
+     * None().log(); // => "None"
+     * ```
+     */
+    Option.prototype.log = function () {
+        console.log(this.toString());
     };
     /**
      * Returns an instance of an Option using the value passed to it
