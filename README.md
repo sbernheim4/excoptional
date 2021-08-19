@@ -377,9 +377,7 @@ toStr(): string {
  * None().log(); // => "None"
  * ```
  */
-log(): void {
-    console.log(this.toString());
-}
+log(): void
 
 /**
  * Returns an instance of an Option using the value passed to it (if provided).
