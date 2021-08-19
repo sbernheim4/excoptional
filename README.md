@@ -4,6 +4,8 @@ A fully typed, zero-dependency implementation of the functional programming Opti
 
 Options are incredibly useful for functions that may or may not return a value (ie, succeed or fail) and help avoid tedious and repetitive checks to determine if a value is `null` or `undefined` before manipulating them.
 
+Code Coverage is 100% across statements, branches, functions, and lines.
+
 This library is simple and provides the best possible TypeScript support for autocomplete, type hints and more.
 
 ### Benefits of Options (and this specific pacakge)
