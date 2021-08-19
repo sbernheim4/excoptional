@@ -359,14 +359,12 @@ toSet(): Set<A>
  * console.log(None()); // => "None()"
  * ```
  */
-toString()
+toString(): string
 
 /**
  * An alias for toString();
  */
-toStr(): string {
-    return this.toString();
-}
+toStr(): string
 
 /**
  * Logs the option to the console.
