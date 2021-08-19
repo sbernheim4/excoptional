@@ -116,7 +116,7 @@ const result = yetAnotherOption
 ### Notes and Best Practices
 
 #### Typing Functions that Return Options
-When writing a function that retuns an `Option`, it's best to type that function's return type as an `Option<T>` rather than `Some<T> | None`. This helps the compiler provide better type inference and provides a better experience.
+When writing a function that retuns an `Option`, it's best to always explicitly type that function's return type as an `Option<T>` rather than `Some<T> | None`. This helps the compiler provide better type inference and provides a better experience.
 
 ```ts
 // Bad ❌
@@ -145,6 +145,13 @@ console.log(myOpt.toString());
 console.log(myOpt.toStr();
 myOpt.log();
 ```
+
+#### map vs flatMap vs then
+If unsure of which method to use to transform the underlying value, then should always work and be suitable.
+
+* Use `map` when the provided function **does not** return an Option.
+* Use `flatMap` when the provided function **does** return an Option.
+* `then` can be used regardless if the provided function returns an Option or not.
 
 #### `flatten` Method Behavior
 When calling the `flatten` method
@@ -234,7 +241,7 @@ map<B>(fn: (val: A) => B): Some<B> | None
  * ```
  * const appendToString = (val: string) => val + "@gmail.com";
  *
- * // Options (possibly returned by other parts of your codebase):
+ * // Options (possibly returned by other functions):
  * const opt = Some("johnsmith");
  * const otherOpt = None();
  *
@@ -261,8 +268,42 @@ fold<B>(fn: (val: A) => B): B | undefined
 flatMap<B>(fn: (val: A) => Option<B>): Some<B> | None
 
 /**
+ * A static version of flatMap. Useful for lifting functions of type
+ * (val: A) => Option<B> to be a function of type (val: Option<A>) => Option<B>
+ *
+ * A curried version of flatMap. First accepts the transformation function, then
+ * the option.
+ *
+ * @example
+ * ```
+ * const returnIfValid = (stringToValidate: string): Option<string> => {
+ *     if (stringToValidate.length > 5) {
+ *         return Some(stringToValidate);
+ *     } else {
+ *         return None();
+ *     }
+ * }
+ *
+ * // Options (possibly returned by other parts of your code base)
+ * const opt = Some("johnsmith");
+ * const otherOpt = None();
+ *
+ * // Create a version of returnIfValid that works on values that are
+ * // Options
+ * const appendToOptionStringIfValid = Option.flatMap(returnIfValid);
+ *
+ * const possiblyAnEmailAddress = appendToOptionStringIfValid(opt); // => Some("johnsmith@gmail.com")
+ * const anotherPossibleEmailAddress = appendToOptionStringIfValid(otherOpt); // => None();
+ * // or
+ * const possiblyAnEmailAddress2 = Option.flatMap(returnIfValid)(opt)
+ * ```
+ */
+static flatMap<B, A>(fn: (val: A) => Option<B>): (opt: Option<A>) => None | Some<B>
+
+/**
  * A mix between map and flatMap. Accepts a function that returns either an
- * Option or non Optional value. Always returns an Option.
+ * Option or non Optional value.
+ * Always returns an Option.
  *
  * Makes the Option class into a thenable.
  *
@@ -289,38 +330,6 @@ flatMap<B>(fn: (val: A) => Option<B>): Some<B> | None
  * ```
  */
 then<B>(fn: (val: A) => B | Option<B>): Option<B>
-
-/**
- * A static version of flatMap. Useful for lifting functions of type
- * (val: A) => Option<B> to be a function of type (val: Option<A>) => Option<B>
- *
- * A curried version of flatMap. First accepts the transformation function, then
- * the option.
- *
- * @example
- * ```
- * const appendIfValid = (stringToValidate: string) => {
- *     if (stringToValidate.length > 5) {
- *         return Some(stringToValidate)
- *     } else {
- *         return None();
- *     }
- * }
- *
- * // Options (possibly returned by other parts of your code base):
- * const opt = Some("johnsmith");
- * const otherOpt = None();
- *
- * // Create a version of appendIfValid that works on values that are Options
- * const appendToOptionStringIfValid = Option.flatMap(appendIfValid);
- *
- * const possiblyAnEmailAddress = appendToOptionStringIfValid(opt); // => Some("johnsmith@gmail.com")
- * const anotherPossibleEmailAddress = appendToOptionStringIfValid(otherOpt); // => None();
- * // OR
- * const possiblyAnEmailAddress2 = Option.flatMap(appendIfValid)(opt)
- * ```
- */
-static flatMap<B, A>(fn: (val: A) => Option<B>): (opt: Option<A>) => None | Some<B>
 
 /**
  * Flattens a wrapped Option.
@@ -413,7 +422,7 @@ log(): void
  * Returns an instance of an Option using the value passed to it (if provided).
  * Equivalent to using Some() or None() functions.
  */
-static of<A>(val?: A): Some<A> | None
+static of<A>(val?: A): Option<A>
 ```
 
 ### Contributing

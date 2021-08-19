@@ -50,9 +50,9 @@ var Option = /** @class */ (function () {
             exports.None();
     };
     /**
-     * @note This method should ONLY be invoked AFTER validating the current
+     * @remarks Do not call this method. It is meant for internal use only.
+     * @remarks This method should ONLY be invoked AFTER validating the current
      * option is a Some.
-     * @note Do not call this method. It is meant for internal use only.
      */
     Option.prototype.internalGet = function () {
         if (this.isSome()) {
@@ -109,7 +109,7 @@ var Option = /** @class */ (function () {
      * ```
      * const appendToString = (val: string) => val + "@gmail.com";
      *
-     * // Options (possibly returned by other parts of your codebase):
+     * // Options (possibly returned by other functions):
      * const opt = Some("johnsmith");
      * const otherOpt = None();
      *
@@ -152,24 +152,26 @@ var Option = /** @class */ (function () {
      *
      * @example
      * ```
-     * const appendIfValid = (stringToValidate: string) => {
+     * const returnIfValid = (stringToValidate: string): Option<string> => {
      *     if (stringToValidate.length > 5) {
-     *         return Some(stringToValidate)
+     *         return Some(stringToValidate);
      *     } else {
      *         return None();
      *     }
      * }
      *
-     * // Options (possibly returned by other parts of your code base):
+     * // Options (possibly returned by other parts of your code base)
      * const opt = Some("johnsmith");
      * const otherOpt = None();
      *
-     * // Create a version of appendIfValid that works on values that are Options
-     * const appendToOptionStringIfValid = Option.flatMap(appendIfValid);
+     * // Create a version of returnIfValid that works on values that are
+     * // Options
+     * const appendToOptionStringIfValid = Option.flatMap(returnIfValid);
      *
-     * const possiblyAnEmailAddress = appendToOptionStringIfValid(opt); // => Some("johnsmith@gmail.com") const anotherPossibleEmailAddress = appendToOptionStringIfValid(otherOpt); // => None();
-     * // OR
-     * const possiblyAnEmailAddress2 = Option.flatMap(appendIfValid)(opt)
+     * const possiblyAnEmailAddress = appendToOptionStringIfValid(opt); // => Some("johnsmith@gmail.com")
+     * const anotherPossibleEmailAddress = appendToOptionStringIfValid(otherOpt); // => None();
+     * // or
+     * const possiblyAnEmailAddress2 = Option.flatMap(returnIfValid)(opt)
      * ```
      */
     Option.flatMap = function (fn) {
@@ -177,7 +179,8 @@ var Option = /** @class */ (function () {
     };
     /**
      * A mix between map and flatMap. Accepts a function that returns either an
-     * Option or non Optional value. Always returns an Option.
+     * Option or non Optional value.
+     * Always returns an Option.
      *
      * Makes the Option class into a thenable.
      *
