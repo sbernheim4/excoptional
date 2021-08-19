@@ -22,6 +22,16 @@ describe("Some", () => {
         expect(Some(3).get()).toBe(3);
     });
 
+    test("internalGet", () => {
+        // @ts-ignore
+        expect(Some(3).internalGet()).toBe(3);
+    });
+
+    test("internalGet2", () => {
+        // @ts-ignore
+        expect(Some(Some(3)).internalGet()).toStrictEqual(Some(3));
+    });
+
     test("getOrElse", () => {
         expect(Some(3).getOrElse(3)).toBe(3);
     });

@@ -22,6 +22,11 @@ describe("None", () => {
         expect(None().get()).toStrictEqual(None());
     });
 
+    test("internalGet", () => {
+        // @ts-ignore
+        expect(() => None().internalGet()).toThrow();
+    });
+
     test("getOrElse", () => {
         expect(None().getOrElse(3)).toBe(3);
     });
@@ -94,4 +99,5 @@ describe("None", () => {
     test("static of", () => {
         expect(Option.of()).toStrictEqual(None());
     });
+
 });
