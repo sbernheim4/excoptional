@@ -83,6 +83,34 @@ describe("Some", () => {
         expect(maybeMyOptDoubled).toBeInstanceOf(Option);
     });
 
+    test("then 2", () => {
+        const myOpt = Some(10);
+
+        const maybeDouble = (val: number): Option<number> => Math.random() > .5 ?
+            Some(val * 2) :
+            Some(val * 10)
+
+        const someNum = myOpt.then(maybeDouble);
+
+        expect(someNum).toBeInstanceOf(Option);
+        expect(someNum.get()).toBeGreaterThanOrEqual(20);
+        expect(someNum.get()).toBeLessThanOrEqual(100);
+    });
+
+    test("then 3", () => {
+        const myOpt = Some(10);
+
+        const maybeDouble = (val: number): number => Math.random() > .5 ?
+            val * 2 :
+            val * 10
+
+        const someNum = myOpt.then(maybeDouble);
+
+        expect(someNum).toBeInstanceOf(Option);
+        expect(someNum.get()).toBeGreaterThanOrEqual(20);
+        expect(someNum.get()).toBeLessThanOrEqual(100);
+    });
+
     test("flatten", () => {
         expect(Some(3).flatten()).toStrictEqual(Some(3));
     });

@@ -43,6 +43,9 @@ describe("None", () => {
     test("fold", () => {
         // @ts-ignore
         expect(None().fold(val => val + "5")).toBeUndefined();
+        //
+        // @ts-ignore
+        expect(None().fold(val => val + "5", "ruh roh")).toBe("ruh roh");
     });
 
     test("flatMap", () => {
