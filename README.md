@@ -291,11 +291,27 @@ flatMap<B>(fn: (val: A) => Option<B>): Some<B> | None
 static flatMap<B, A>(fn: (val: A) => Option<B>): (opt: Option<A>) => None | Some<B>
 
 /**
- * Flattens a wrapped Option if the outermost layer is a Some. If the instance
- * is a None, a None is returned. If the underlying value is not an Option, the
- * instance is returned.
+ * Flattens a wrapped Option.
+ * If the instance is a None, a None is returned.
+ * If the underlying value is not an Option, the instance is returned.
+ * If the underlying value is an option, the underlying value is returned.
+ * In all cases, an Option is **always** returned.
+ *
+ * @remarks It's impossible to automatically and definitively infer the
+ * underlying value's type. If the caller knows the possible type(s) of the
+ * underlying value, the possible type(s) can be passed through the generic.
+ *
+ * @example
+ * ```
+ * // myFunc is a function of the type () => Option<number | string>;
+ * const wrappedOpt = Some(myFunc());
+ *
+ * // The underlying value's type (wrappedOpt) is number | string so we pass
+ * // that through.
+ * const flattenedOption = wrappedOpt.flatten<number | string>();
+ * ```
  */
-flatten(): None | A | Some<A>
+flatten<B>(): Option<B>
 
 /**
  * Returns the instance if the underlying value passes the provided filter
