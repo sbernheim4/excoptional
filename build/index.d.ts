@@ -88,10 +88,11 @@ export declare class Option<A> {
      */
     static map<B, A>(fn: (val: A) => B): (opt: Option<A>) => Option<B>;
     /**
-     * Equivalent to map but returns the underlying value instead of a new
-     * Option. Returns undefined if the instance is a None.
+     * Equivalent to map but returns the underlying value instead of an Option.
+     * Returns one of alternativeVal (if provided) or undefined if the instance
+     * is a None.
      */
-    fold<B>(fn: (val: A) => B): B | undefined;
+    fold<B>(fn: (val: A) => B, alternativeVal?: B): B | undefined;
     /**
      * Transforms and returns the underlying value if the instance is a Some by
      * applying the provided function to the underlying value. Otherwise returns

@@ -125,12 +125,13 @@ var Option = /** @class */ (function () {
         return function (opt) { return opt.map(fn); };
     };
     /**
-     * Equivalent to map but returns the underlying value instead of a new
-     * Option. Returns undefined if the instance is a None.
+     * Equivalent to map but returns the underlying value instead of an Option.
+     * Returns one of alternativeVal (if provided) or undefined if the instance
+     * is a None.
      */
-    Option.prototype.fold = function (fn) {
+    Option.prototype.fold = function (fn, alternativeVal) {
         return this.map(fn)
-            .getOrElse(undefined);
+            .getOrElse(alternativeVal);
     };
     /**
      * Transforms and returns the underlying value if the instance is a Some by
