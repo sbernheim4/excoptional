@@ -119,12 +119,12 @@ When writing a function that retuns an `Option`, it's best to type that function
 ```ts
 // Bad ❌
 const myFunc = (): Some<number> | None => {
-    return Math.random() * 100 > 50 Some("Success") : None();
+    return Math.random() * 100 > 50 ? Some("Success") : None();
 }
 
 // Good ✅
 const myFunc = (): Option<number> => {
-    return Math.random() * 100 > 50 Some("Success") : None();
+    return Math.random() * 100 > 50 ? Some("Success") : None();
 }
 ```
 
