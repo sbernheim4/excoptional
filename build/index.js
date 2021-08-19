@@ -176,9 +176,25 @@ var Option = /** @class */ (function () {
         return function (opt) { return opt.flatMap(fn); };
     };
     /**
-     * Flattens a wrapped Option if the outermost layer is a Some. If the
-     * instance is a None, a None is returned. If the underlying value is not an
-     * Option, the instance is returned.
+     * Flattens a wrapped Option.
+     * If the instance is a None, a None is returned.
+     * If the underlying value is not an Option, the instance is returned.
+     * If the underlying value is an option, the underlying value is returned.
+     * In all cases, an Option is **always** returned.
+     *
+     * @remarks It's impossible to automatically and definitively infer the
+     * underlying value's type. If the caller knows the possible type(s) of the
+     * underlying value, the possible type(s) can be passed through the generic.
+     *
+     * @example
+     * ```
+     * // myFunc is a function of the type () => Option<number | string>;
+     * const wrappedOpt = Some(myFunc());
+     *
+     * // The underlying value's type (wrappedOpt) is number | string so we pass
+     * // that through.
+     * const flattenedOption = wrappedOpt.flatten<number | string>();
+     * ```
      */
     Option.prototype.flatten = function () {
         if (this.isNone()) {
@@ -187,7 +203,8 @@ var Option = /** @class */ (function () {
         if (this.isSome() && this.get() instanceof Option) {
             return this.internalGet();
         }
-        // `this` must be a Some whose underlying value is *not* a Some
+        // `this` is guaranteed at this point to be a Some whose underlying
+        // value is *not* an Option.
         return this;
     };
     /**
