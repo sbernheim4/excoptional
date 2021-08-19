@@ -261,6 +261,36 @@ fold<B>(fn: (val: A) => B): B | undefined
 flatMap<B>(fn: (val: A) => Option<B>): Some<B> | None
 
 /**
+ * A mix between map and flatMap. Accepts a function that returns either an
+ * Option or non Optional value. Always returns an Option.
+ *
+ * Makes the Option class into a thenable.
+ *
+ * If the instance is a None, a None is returned.
+ * If the provided function returns an Option, the result of applying the
+ * function to the underlying value is returned.
+ * If the provided function returns a non Optional, the result of applying
+ * the function to the underlying value is lifted into an Option and
+ * returned.
+ *
+ * @example
+ * ```
+ * const myOpt = Some(10);
+ *
+ * const maybeDouble = (val: number): Option<number> => Math.random() > .5 ?
+ *     Some(val * 2) :
+ *     None();
+ *
+ * const alwaysDouble = (val: number): number => val * 2;
+ *
+ * // function calls can be chained with .then regarless if the functions
+ * // passed to then return an Option or non Option.
+ * const maybeMyOptDoubled = myOpt.then(maybeDouble).then(alwaysDouble);
+ * ```
+ */
+then<B>(fn: (val: A) => B | Option<B>): Option<B>
+
+/**
  * A static version of flatMap. Useful for lifting functions of type
  * (val: A) => Option<B> to be a function of type (val: Option<A>) => Option<B>
  *

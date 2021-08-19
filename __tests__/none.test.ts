@@ -50,6 +50,20 @@ describe("None", () => {
         expect(None().flatMap(val => Some(val + "10"))).toStrictEqual(None());
     });
 
+    test("then", () => {
+        const myOpt = None();
+
+        const maybeDouble = (val: number): Option<number> => Math.random() > .5 ?
+            Some(val * 2) :
+            None();
+
+        const alwaysDouble = (val: number): number => val * 2;
+
+        const maybeMyOptDoubled = myOpt.then(maybeDouble).then(alwaysDouble);
+
+        expect(maybeMyOptDoubled).toStrictEqual(None())
+    });
+
     test("flatten", () => {
         expect(None().flatten()).toStrictEqual(None());
     });

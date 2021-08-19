@@ -196,6 +196,48 @@ This error should never be thrown.`
     }
 
     /**
+     * A mix between map and flatMap. Accepts a function that returns either an
+     * Option or non Optional value. Always returns an Option.
+     *
+     * Makes the Option class into a thenable.
+     *
+     * If the instance is a None, a None is returned.
+     * If the provided function returns an Option, the result of applying the
+     * function to the underlying value is returned.
+     * If the provided function returns a non Optional, the result of applying
+     * the function to the underlying value is lifted into an Option and
+     * returned.
+     *
+     * @example
+     * ```
+     * const myOpt = Some(10);
+     *
+     * const maybeDouble = (val: number): Option<number> => Math.random() > .5 ?
+     *     Some(val * 2) :
+     *     None();
+     *
+     * const alwaysDouble = (val: number): number => val * 2;
+     *
+     * // function calls can be chained with .then regarless if the functions
+     * // passed to then return an Option or non Option.
+     * const maybeMyOptDoubled = myOpt.then(maybeDouble).then(alwaysDouble);
+     * ```
+     */
+    then<B>(fn: (val: A) => B | Option<B>): Option<B> {
+
+        if (this.isSome()) {
+            const result = fn(this.internalGet());
+
+            return result instanceof Option ?
+                result :
+                Some(result);
+        }
+
+        return None();
+
+    }
+
+    /**
      * Flattens a wrapped Option.
      * If the instance is a None, a None is returned.
      * If the underlying value is not an Option, the instance is returned.

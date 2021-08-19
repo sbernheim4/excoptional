@@ -68,6 +68,21 @@ describe("Some", () => {
         expect(optMultiplyByTen(myOpt)).toStrictEqual(Some(30));
     });
 
+
+    test("then", () => {
+        const myOpt = Some(10);
+
+        const maybeDouble = (val: number): Option<number> => Math.random() > .5 ?
+            Some(val * 2) :
+            None();
+
+        const alwaysDouble = (val: number): number => val * 2;
+
+        const maybeMyOptDoubled = myOpt.then(maybeDouble).then(alwaysDouble);
+
+        expect(maybeMyOptDoubled).toBeInstanceOf(Option);
+    });
+
     test("flatten", () => {
         expect(Some(3).flatten()).toStrictEqual(Some(3));
     });
