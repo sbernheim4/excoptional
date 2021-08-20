@@ -374,7 +374,7 @@ then<B>(fn: (val: A) => B | Option<B>): Option<B>
  *
  * @example
  * ```
- * // Assume myFunc is of the type () => Option<number | string>;
+ * // Assume myFunc is of the type () => number | string;
  * const wrappedOpt = Some(myFunc());
  *
  * // wrappedOpt's underlying value is of the type number | string.
