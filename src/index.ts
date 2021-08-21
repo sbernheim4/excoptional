@@ -444,14 +444,14 @@ This error should never be thrown.`
      *
      * @example
      * const customLogger = <T>(opt: Option<T>): string => {
-     *     return "!!!!!!!!!!!!! " + opt.toStr() + " !!!!!!!!!!!!!";
+     *     return "!!!!!!!! " + opt.toStr() + " !!!!!!!!";
      * }
      * Some(3)
      *     .map(val => val + 5)
      *     .logAndContinue() // => "Some(8)"
      *     .map(val => val + 2)
      *     .filter(val => val > 10)
-     *     .logAndContinue(customLogger) // => "!!!!!!!!!!!!! None !!!!!!!!!!!!!"
+     *     .logAndContinue(customLogger) // => "!!!!!!!! None !!!!!!!!"
      *     .getOrElse(-1);
      * ```
      */

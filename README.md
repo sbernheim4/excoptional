@@ -475,34 +475,34 @@ toStr(): string
  */
 log(customToString?: (opt: this) => string): void
 
- /**
-  * Returns the instance after logging it to the console.
-  *
-  * Convenient to see the value of the Option in a sequence of method
-  * calls for debugging without having to split up the method calls.
-  *
-  * Accepts an optional function (customToString) as an argument.
-  * customToString is a function you implement that returns a string.
-  * The string returned by customToString will be used in place of
-  * the string returned by toString method.
-  * customToString will have access to the option instance as well
-  * but should **not** mutate the instance in any way (by calling
-  * map, flatMap, then, filter, etc).
-  *
-  * @example
-  * const customLogger = (opt: Option<number>): string => {
-  *     return "!!!!!!!!!!!!! " + opt.toStr() + " !!!!!!!!!!!!!";
-  * }
-  * Some(3)
-  *     .map(val => val + 5)
-  *     .logAndContinue() // => "Some(8)"
-  *     .map(val => val + 2)
-  *     .filter(val => val > 10)
-  *     .logAndContinue(customLogger) // => "!!!!!!!!!!!!! None !!!!!!!!!!!!!"
-  *     .getOrElse(-1);
-  * ```
-  */
- logAndContinue(customToString?: (opt: this) => string): Option<A>
+/**
+ * Returns the instance after logging it to the console.
+ *
+ * Convenient to see the value of the Option in a sequence of method
+ * calls for debugging without having to split up the method calls.
+ *
+ * Accepts an optional function (customToString) as an argument.
+ * customToString is a function you implement that returns a string.
+ * The string returned by customToString will be used in place of
+ * the string returned by toString method.
+ * customToString will have access to the option instance as well
+ * but should **not** mutate the instance in any way (by calling
+ * map, flatMap, then, filter, etc).
+ *
+ * @example
+ * const customLogger = <T>(opt: Option<T>): string => {
+ *     return "!!!!!!!! " + opt.toStr() + " !!!!!!!!";
+ * }
+ * Some(3)
+ *     .map(val => val + 5)
+ *     .logAndContinue() // => "Some(8)"
+ *     .map(val => val + 2)
+ *     .filter(val => val > 10)
+ *     .logAndContinue(customLogger) // => "!!!!!!!! None !!!!!!!!"
+ *     .getOrElse(-1);
+ * ```
+ */
+logAndContinue(customToString?: (opt: this) => string): Option<A>
 
 /**
  * Returns an instance of an Option using the value passed to it (if
@@ -512,9 +512,15 @@ static of<A>(val?: A): Option<A>
 ```
 
 ### Contributing
-1. Fork this repo
-2. Run an `npm install`
-3. Make your changes
-4. Run `tsc` to generate a build and validate your changes
-5. Add tests - tests are built with jest
-6. Open a PR
+1. Fork this repo.
+2. Run `npm install`.
+3. Make your changes.
+4. Update tests and validate they all pass and coverage remains at 100%.
+5. Update README (add new methods, changed types, updated descriptions).
+6. Run `npm run build`.
+7. Add all built files (build folder, updated coverage reports).
+8. Open a PR.
+
+> Watch versions of npm commands are available.
+* `npm run test:watch`
+* `npm run build:watch`
