@@ -404,7 +404,7 @@ var Option = /** @class */ (function () {
      *     .logAndContinue() // => "Some(8)"
      *     .map(val => val + 2)
      *     .filter(val => val > 10)
-     *     .logAndContinue(customLogger) // => "!!!!!!!!!!!!! Some(8) !!!!!!!!!!!!!"
+     *     .logAndContinue(customLogger) // => "!!!!!!!!!!!!! None !!!!!!!!!!!!!"
      *     .getOrElse(-1);
      * ```
      */
