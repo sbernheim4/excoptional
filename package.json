@@ -7,8 +7,9 @@
   "repository": "github:sbernheim4/Excoptional",
   "scripts": {
     "test": "jest --coverage",
-    "test:watch": "jest --watch --coverage",
-    "build": "tsc"
+    "test:watch": "jest --watch",
+    "build": "tsc",
+    "build:watch": "tsc --watch"
   },
   "keywords": [
     "Option",
