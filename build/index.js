@@ -353,14 +353,64 @@ var Option = /** @class */ (function () {
      * Logs the Option to the console invoking both console.log and
      * toString for you.
      *
+     * Accepts an optional function (customToString) as an argument.
+     * customToString is a function you implement that returns a string.
+     * The string returned by customToString will be used in place of
+     * the string returned by toString method.
+     * customToString will have access to the option instance as well
+     * but should **not** mutate the instance in any way (by calling
+     * map, flatMap, then, filter, etc).
+     *
      * @example
      * ```
      * Some(3).log(); // => "Some(3)"
      * None().log(); // => "None"
+     *
+     * const customLogger = (opt: Option<number>): string => {
+     *     return "~~~~~~~~~~~~~ " + opt.toStr() + " ~~~~~~~~~~~~~";
+     * }
+     *
+     * Some(3).log(customLogger) // => `"~~~~~~~~~~~~~ Some(3) ~~~~~~~~~~~~~`
+     * // Or defined inline and not even using the instance
+     * Some(3).log(() => "---- I AM HERE ----"); // => `---- I AM HERE ----`
      * ```
      */
-    Option.prototype.log = function () {
-        console.log(this.toString());
+    Option.prototype.log = function (customToString) {
+        var stringToLog = customToString ?
+            customToString(this) :
+            this.toStr();
+        console.log(stringToLog);
+    };
+    /**
+     * Returns the instance after logging it to the console.
+     *
+     * Convenient to see the value of the Option in a sequence of method
+     * calls for debugging without having to split up the method calls.
+     *
+     * Accepts an optional function (customToString) as an argument.
+     * customToString is a function you implement that returns a string.
+     * The string returned by customToString will be used in place of
+     * the string returned by toString method.
+     * customToString will have access to the option instance as well
+     * but should **not** mutate the instance in any way (by calling
+     * map, flatMap, then, filter, etc).
+     *
+     * @example
+     * const customLogger = (opt: Option<number>): string => {
+     *     return "!!!!!!!!!!!!! " + opt.toStr() + " !!!!!!!!!!!!!";
+     * }
+     * Some(3)
+     *     .map(val => val + 5)
+     *     .logAndContinue() // => `Some(8)`
+     *     .map(val => val + 2)
+     *     .filter(val => val > 10)
+     *     .logAndContinue(customLogger) // => `!!!!!!!!!!!!! Some(8) !!!!!!!!!!!!!`
+     *     .getOrElse(-1);
+     * ```
+     */
+    Option.prototype.logAndContinue = function (customToString) {
+        this.log(customToString);
+        return this;
     };
     /**
      * Returns an instance of an Option using the value passed to it (if
