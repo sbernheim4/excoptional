@@ -2,7 +2,7 @@
 
 A fully typed, zero-dependency implementation of the functional programming Option object for JavaScript and TypeScript.
 
-Options are incredibly useful for functions that may or may not return a value and safely manipulating that value if it does or doesn't exist. Options also help avoid tedious and repetitive checks to determine if that value is `null` or `undefined` before manipulating them.
+Options are incredibly useful for functions that may or may not return a value and for providing a mechanism to safely manipulate that value regardless of whether it does or does not exist. Options help avoid tedious and repetitive checks to determine if a value is `null` or `undefined` before manipulating it.
 
 This library is simple and provides the best possible TypeScript support for autocomplete, type hints and more.
 
