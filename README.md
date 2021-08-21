@@ -82,7 +82,7 @@ const myFourthOption = Option.of() // Equivalent to None();
 ```ts
 import { Some, None, Option } from "excoptional";
 
-const appendIfValid = (val: string): Option<string> => {
+const getIfValid = (val: string): Option<string> => {
    if (val.length > 2) {
         return Some(val);
     } else {
@@ -90,8 +90,8 @@ const appendIfValid = (val: string): Option<string> => {
     }
 }
 
-const myOption = appendIfValid("Hello World");
-const myOtherOption = appendIfValid("Hi");
+const myOption = getIfValid("Hello World");
+const myOtherOption = getIfValid("Hi");
 
 myOption.map(val => val.toUpperCase()); // => Some("HELLO WORLD");
 myOtherOption.map(val => val.toUpperCase()); // None();
@@ -117,6 +117,7 @@ const result = yetAnotherOption
 
 #### Typing Functions that Return Options
 When writing a function that retuns an `Option`, always explicitly type that function's return type as an `Option<T>`. Prefer typing the return value as `Option<T>` over `Some<T> | None`. This helps the compiler provide support for type inference and provides a better experience.
+In a JavaScript codebase, type the function through JSDocs
 
 ```ts
 // Bad ❌
@@ -171,7 +172,7 @@ If it does, please file an issue.
 #### Types
 * `None` and `Option<undefined>` are equivalent.
 * `Some<T>` and `Option<T>` are equivalent (`T` should be neither `undefined` nor `null`).
-* You should never need to create an `Option` to hold `null` or `undefined`. `None` should replace any instances of `null` and `undefined`.
+* You should never need to create a `Some` to hold `null` or `undefined`. `None` should replace any instances of `null` and `undefined`.
 
 ### Methods
 
@@ -216,8 +217,8 @@ getOrElse<B>(otherVal: B): A | B
  * Returns the current instance if it's a Some. Returns the provided
  * Option argument otherwise.
  *
- * @remarks Useful for chaining successive function calls that each
- * return an option
+ * @remarks Useful for chaining successive calls to return the first
+ * Some in the chain of orElses.
  *
  * @example
  * ```
@@ -234,6 +235,9 @@ orElse<B>(otherOption: Option<B>): Option<A> | Option<B>
  * applying the provided function to the underlying value, returning
  * the transformed value in an Option.
  * Returns a None otherwise.
+ *
+ * @remarks Prefer this to `flatMap` when the provided function does not
+ * return an Option.
  */
 map<B>(fn: (val: A) => B): Option<B>
 
@@ -243,7 +247,7 @@ map<B>(fn: (val: A) => B): Option<B>
  * (val: Option<A>) => Option<B>.
  *
  * A curried version of map. First accepts the transformation
- * function, then the option.
+ * function, and returns a function that accepts the Option.
  *
  * @example
  * ```
@@ -298,7 +302,13 @@ flatMap<B>(fn: (val: A) => Option<B>): Option<B>
  *
  * @example
  * ```
- * const getIfValid = (strToValidate: string): Option<string>
+ * const getIfValid = (val: string): Option<string> => {
+ *    if (val.length > 2) {
+ *         return Some(val);
+ *     } else {
+ *         return None();
+ *     }
+ * }
  *
  * // Options (possibly returned by other parts of your code base)
  * const opt = Some("johnsmith");
@@ -322,8 +332,8 @@ static flatMap<B, A>(
 ): (opt: Option<A>) => Option<B>
 
 /**
- * A mix between map and flatMap. Accepts a function that returns
- * either an Option or non Optional value.
+ * Usable in place of both map and flatMap.
+ * Accepts a function that returns either an Option or non Option value.
  *
  * Always returns an Option.
  *
@@ -350,8 +360,8 @@ static flatMap<B, A>(
  *
  * // function calls can be chained with .then regarless if the
  * // functions passed to then return an Option or non Option.
- * const maybeOptDoubled = myOpt.then(maybeDouble)
- *                              .then(alwaysDouble);
+ * const maybeOptDoubledOrQuadrupled = myOpt.then(maybeDouble)
+ *                                          .then(alwaysDouble);
  * ```
  */
 then<B>(fn: (val: A) => B | Option<B>): Option<B>
@@ -464,4 +474,3 @@ static of<A>(val?: A): Option<A>
 4. Run `tsc` to generate a build and validate your changes
 5. Add tests - tests are built with jest
 6. Open a PR
-

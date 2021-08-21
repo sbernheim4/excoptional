@@ -89,8 +89,8 @@ This error should never be thrown.`
      * Returns the current instance if it's a Some. Returns the provided
      * Option argument otherwise.
      *
-     * @remarks Useful for chaining successive function calls that each
-     * return an option
+     * @remarks Useful for chaining successive calls to return the first
+     * Some in the chain of orElses.
      *
      * @example
      * ```
@@ -111,6 +111,9 @@ This error should never be thrown.`
      * applying the provided function to the underlying value, returning
      * the transformed value in an Option.
      * Returns a None otherwise.
+     *
+     * @remarks Prefer this to `flatMap` when the provided function does not
+     * return an Option.
      */
     map<B>(fn: (val: A) => B): Option<B> {
         return this.isSome() ?
@@ -124,7 +127,7 @@ This error should never be thrown.`
      * (val: Option<A>) => Option<B>.
      *
      * A curried version of map. First accepts the transformation
-     * function, then the option.
+     * function, and returns a function that accepts the Option.
      *
      * @example
      * ```
@@ -186,9 +189,9 @@ This error should never be thrown.`
      *
      * @example
      * ```
-     * const getIfValid = (strToValidate: string): Option<string> => {
-     *     if (strToValidate.length > 5) {
-     *         return Some(strToValidate);
+     * const getIfValid = (val: string): Option<string> => {
+     *    if (val.length > 2) {
+     *         return Some(val);
      *     } else {
      *         return None();
      *     }
@@ -218,8 +221,8 @@ This error should never be thrown.`
     }
 
     /**
-     * A mix between map and flatMap. Accepts a function that returns
-     * either an Option or non Optional value.
+     * Usable in place of both map and flatMap.
+     * Accepts a function that returns either an Option or non Option value.
      *
      * Always returns an Option.
      *
@@ -246,8 +249,8 @@ This error should never be thrown.`
      *
      * // function calls can be chained with .then regarless if the
      * // functions passed to then return an Option or non Option.
-     * const maybeOptDoubled = myOpt.then(maybeDouble)
-     *                              .then(alwaysDouble);
+     * const maybeOptDoubledOrQuadrupled = myOpt.then(maybeDouble)
+     *                                          .then(alwaysDouble);
      * ```
      */
     then<B>(fn: (val: A) => B | Option<B>): Option<B> {
