@@ -420,7 +420,7 @@ This error should never be thrown.`
      * Some(3).log(() => "---- I AM HERE ----"); // => "---- I AM HERE ----"
      * ```
      */
-    log(customToString?: (opt?: this) => string): void {
+    log(customToString?: (opt: this) => string): void {
         const stringToLog = customToString ?
             customToString(this) :
             this.toStr();
@@ -451,11 +451,11 @@ This error should never be thrown.`
      *     .logAndContinue() // => "Some(8)"
      *     .map(val => val + 2)
      *     .filter(val => val > 10)
-     *     .logAndContinue(customLogger) // => "!!!!!!!!!!!!! Some(8) !!!!!!!!!!!!!"
+     *     .logAndContinue(customLogger) // => "!!!!!!!!!!!!! None !!!!!!!!!!!!!"
      *     .getOrElse(-1);
      * ```
      */
-    logAndContinue(customToString?: (opt?: this) => string): Option<A> {
+    logAndContinue(customToString?: (opt: this) => string): Option<A> {
         this.log(customToString);
         return this;
     }
