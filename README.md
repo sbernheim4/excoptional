@@ -268,9 +268,7 @@ map<B>(fn: (val: A) => B): Option<B>
  * // maybeAnEmailAddress2 => None();
  * ```
  */
-static map<B, A>(fn: (val: A) => B): (opt: Option<A>) => Option<B> {
-    return (opt: Option<A>) => opt.map(fn);
-}
+static map<B, A>(fn: (val: A) => B): (opt: Option<A>) => Option<B>
 
 /**
  * Equivalent to map but returns the underlying value instead of an
@@ -302,9 +300,10 @@ flatMap<B>(fn: (val: A) => Option<B>): Option<B>
  *
  * @example
  * ```
- * const getIfValid = (val: string): Option<string> => {
+ * const appendIfValid = (val: string): Option<string> => {
  *    if (val.length > 2) {
- *         return Some(val);
+ *         const newVal = val + "@gmail.com";
+ *         return Some(newVal);
  *     } else {
  *         return None();
  *     }
@@ -314,17 +313,17 @@ flatMap<B>(fn: (val: A) => Option<B>): Option<B>
  * const opt = Some("johnsmith");
  * const otherOpt = None();
  *
- * // Create a version of getIfValid that works on Option<string>
- * const appendToOptionStrIfValid = Option.flatMap(getIfValid);
+ * // Create a version of appendIfValid that works on Option<string>
+ * const appendToOptionStrIfValid = Option.flatMap(appendIfValid);
  *
  * const maybeAnEmailAddress = appendToOptionStrIfValid(opt);
  * // maybeAnEmailAddress => Some("johnsmith@gmail.com")
  *
  * const maybeAnEmailAddress2 = appendToOptionStrIfValid(otherOpt);
- * // maybeAnEmailAddress2 => None();
+ * // maybeAnEmailAddress2 => None()
  *
  * // This next line is equivalent to the above.
- * const maybeAnEmailAddress3 = Option.flatMap(getIfValid)(opt)
+ * const maybeAnEmailAddress3 = Option.flatMap(appendIfValid)(opt);
  * ```
  */
 static flatMap<B, A>(

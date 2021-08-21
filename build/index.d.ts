@@ -126,9 +126,10 @@ export declare class Option<A> {
      *
      * @example
      * ```
-     * const getIfValid = (val: string): Option<string> => {
+     * const appendIfValid = (val: string): Option<string> => {
      *    if (val.length > 2) {
-     *         return Some(val);
+     *         const newVal = val + "@gmail.com";
+     *         return Some(newVal);
      *     } else {
      *         return None();
      *     }
@@ -138,17 +139,17 @@ export declare class Option<A> {
      * const opt = Some("johnsmith");
      * const otherOpt = None();
      *
-     * // Create a version of getIfValid that works on Option<string>
-     * const appendToOptionStrIfValid = Option.flatMap(getIfValid);
+     * // Create a version of appendIfValid that works on Option<string>
+     * const appendToOptionStrIfValid = Option.flatMap(appendIfValid);
      *
      * const maybeAnEmailAddress = appendToOptionStrIfValid(opt);
      * // maybeAnEmailAddress => Some("johnsmith@gmail.com")
      *
      * const maybeAnEmailAddress2 = appendToOptionStrIfValid(otherOpt);
-     * // maybeAnEmailAddress2 => None();
+     * // maybeAnEmailAddress2 => None()
      *
      * // This next line is equivalent to the above.
-     * const maybeAnEmailAddress3 = Option.flatMap(getIfValid)(opt)
+     * const maybeAnEmailAddress3 = Option.flatMap(appendIfValid)(opt);
      * ```
      */
     static flatMap<B, A>(fn: (val: A) => Option<B>): (opt: Option<A>) => Option<B>;
