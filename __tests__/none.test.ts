@@ -110,7 +110,56 @@ describe("None", () => {
 
         expect(consoleLogSpy).toHaveBeenCalled();
 
-        consoleLogSpy.mockClear();
+        consoleLogSpy.mockReset();
+    });
+
+    test("log with custom logging function", () => {
+        const consoleLogSpy = jest.spyOn(console, "log").mockImplementation(() => {});
+        const customLoggerMock = jest.fn().mockImplementation((
+            opt: Option<number>
+        ): string => {
+            return "~~~~~~~~~~~~~ " + opt.toStr() + " ~~~~~~~~~~~~~";
+        });
+
+        None().log(customLoggerMock);
+
+        expect(customLoggerMock).toHaveBeenCalledTimes(1)
+        expect(customLoggerMock).toHaveLastReturnedWith("~~~~~~~~~~~~~ None ~~~~~~~~~~~~~")
+
+
+        consoleLogSpy.mockReset();
+        customLoggerMock.mockReset()
+    });
+
+    test("logAndContinue", () => {
+        const consoleLogSpy = jest.spyOn(console, "log").mockImplementation(() => {});
+
+        const customLoggerMockOne = jest.fn().mockImplementation((
+            opt: Option<number>
+        ): string => {
+            return "~~~~~~~~~~~~~ " + opt.toStr() + " ~~~~~~~~~~~~~";
+        });
+
+        const customLoggerMockTwo = jest.fn().mockImplementation((): string => {
+            return "I AM HERE";
+        });
+
+        const result = None()
+            // @ts-ignore
+            .map(val => val + 5)
+            .logAndContinue(customLoggerMockOne)
+            // @ts-ignore
+            .map(val => val + 2)
+            .logAndContinue(customLoggerMockTwo)
+            .getOrElse(-1);
+
+        expect(result).toBe(-1)
+        expect(customLoggerMockOne).toHaveNthReturnedWith(1, "~~~~~~~~~~~~~ None ~~~~~~~~~~~~~")
+        expect(customLoggerMockTwo).toHaveNthReturnedWith(1, "I AM HERE")
+
+        consoleLogSpy.mockReset();
+        customLoggerMockOne.mockReset()
+        customLoggerMockTwo.mockReset()
     });
 
     test("static of", () => {
