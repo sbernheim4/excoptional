@@ -473,7 +473,7 @@ toStr(): string
  * Some(3).log(() => "---- I AM HERE ----"); // => "---- I AM HERE ----"
  * ```
  */
-log(customToString?: (opt?: this) => string): void
+log(customToString?: (opt: this) => string): void
 
  /**
   * Returns the instance after logging it to the console.
@@ -498,11 +498,11 @@ log(customToString?: (opt?: this) => string): void
   *     .logAndContinue() // => "Some(8)"
   *     .map(val => val + 2)
   *     .filter(val => val > 10)
-  *     .logAndContinue(customLogger) // => "!!!!!!!!!!!!! Some(8) !!!!!!!!!!!!!"
+  *     .logAndContinue(customLogger) // => "!!!!!!!!!!!!! None !!!!!!!!!!!!!"
   *     .getOrElse(-1);
   * ```
   */
- logAndContinue(customToString?: (opt?: this) => string): Option<A>
+ logAndContinue(customToString?: (opt: this) => string): Option<A>
 
 /**
  * Returns an instance of an Option using the value passed to it (if
