@@ -41,7 +41,7 @@ const myInputTwo = Some("hello world");
 const myParsedString = uppercaseStrTwo(myInputTwo).getOrElse("whatever we want");
 ```
 
-* The argument and return type of the function changes from a `string` to an `Option<string>` explicitly indicating that this function may succeed or fail.
+* The argument and return type of the function changes from a `string` to an `Option<string>` explicitly indicating that this function may or may not have a return value.
 * The caller of `uppercaseStrTwo` is forced to eventually handle both scenarios, but can continue to safely manipulate the underlying value via `map` and other available methods.
 * The caller avoids additional `null` and `undefined` checks of the returned value.
 * The caller, instead of the function author, determines the fallback value if the Option does not contain a value (via the `getOrElse` method).
