@@ -279,9 +279,9 @@ export declare class Option<A> {
      *     return "~~~~~~~~~~~~~ " + opt.toStr() + " ~~~~~~~~~~~~~";
      * }
      *
-     * Some(3).log(customLogger) // => `"~~~~~~~~~~~~~ Some(3) ~~~~~~~~~~~~~`
+     * Some(3).log(customLogger) // => "~~~~~~~~~~~~~ Some(3) ~~~~~~~~~~~~~"
      * // Or defined inline and not even using the instance
-     * Some(3).log(() => "---- I AM HERE ----"); // => `---- I AM HERE ----`
+     * Some(3).log(() => "---- I AM HERE ----"); // => "---- I AM HERE ----"
      * ```
      */
     log(customToString?: (opt?: this) => string): void;
@@ -300,15 +300,15 @@ export declare class Option<A> {
      * map, flatMap, then, filter, etc).
      *
      * @example
-     * const customLogger = (opt: Option<number>): string => {
+     * const customLogger = <T>(opt: Option<T>): string => {
      *     return "!!!!!!!!!!!!! " + opt.toStr() + " !!!!!!!!!!!!!";
      * }
      * Some(3)
      *     .map(val => val + 5)
-     *     .logAndContinue() // => `Some(8)`
+     *     .logAndContinue() // => "Some(8)"
      *     .map(val => val + 2)
      *     .filter(val => val > 10)
-     *     .logAndContinue(customLogger) // => `!!!!!!!!!!!!! Some(8) !!!!!!!!!!!!!`
+     *     .logAndContinue(customLogger) // => "!!!!!!!!!!!!! Some(8) !!!!!!!!!!!!!"
      *     .getOrElse(-1);
      * ```
      */
