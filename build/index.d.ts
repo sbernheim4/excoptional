@@ -66,8 +66,8 @@ export declare class Option<A> {
      * the transformed value in an Option.
      * Returns a None otherwise.
      *
-     * @remarks Prefer this to `flatMap` when the provided function does not
-     * return an Option.
+     * @remarks Prefer this to `flatMap` when the provided function does
+     * not return an Option.
      */
     map<B>(fn: (val: A) => B): Option<B>;
     /**
@@ -98,6 +98,23 @@ export declare class Option<A> {
      * ```
      */
     static map<B, A>(fn: (val: A) => B): (opt: Option<A>) => Option<B>;
+    /**
+     * An alias for Option.map. Perhaps a more accurate or descriptive
+     * name.
+     *
+     * Lifts a function of type (val: A) => B
+     * to be a function of type (val: Option<A>) => Option<B>.
+     *
+     * @example
+     * // Working with number
+     * const addFive = (val) => val + 5;
+     * const eight = addFive(3);
+     *
+     * // Working with Option<number>
+     * const addFiveToOption = Option.lift(addFive);
+     * const maybeEight = addFiveToOption(Some(3));
+     */
+    static lift<B, A>(fn: (val: A) => B): (opt: Option<A>) => Option<B>;
     /**
      * Equivalent to map but returns the underlying value instead of an
      * Option. Returns one of alternativeVal (if provided) or undefined
@@ -155,7 +172,8 @@ export declare class Option<A> {
     static flatMap<B, A>(fn: (val: A) => Option<B>): (opt: Option<A>) => Option<B>;
     /**
      * Usable in place of both map and flatMap.
-     * Accepts a function that returns either an Option or non Option value.
+     * Accepts a function that returns either an Option or non Option
+     * value.
      *
      * Always returns an Option.
      *
@@ -276,12 +294,12 @@ export declare class Option<A> {
      * None().log(); // => "None"
      *
      * const customLogger = (opt: Option<number>): string => {
-     *     return "~~~~~~~~~~~~~ " + opt.toStr() + " ~~~~~~~~~~~~~";
+     *     return ~~~~~~~~~~~ " + opt.toStr() + " ~~~~~~~~~~";
      * }
      *
-     * Some(3).log(customLogger) // => "~~~~~~~~~~~~~ Some(3) ~~~~~~~~~~~~~"
+     * Some(3).log(customLogger) // => "~~~~~~~~~~ Some(3) ~~~~~~~~~~"
      * // Or defined inline and not even using the instance
-     * Some(3).log(() => "---- I AM HERE ----"); // => "---- I AM HERE ----"
+     * Some(3).log(() => "-- I AM HERE --"); // => "-- I AM HERE --"
      * ```
      */
     log(customToString?: (opt: this) => string): void;

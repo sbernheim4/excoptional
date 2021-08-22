@@ -97,8 +97,8 @@ var Option = /** @class */ (function () {
      * the transformed value in an Option.
      * Returns a None otherwise.
      *
-     * @remarks Prefer this to `flatMap` when the provided function does not
-     * return an Option.
+     * @remarks Prefer this to `flatMap` when the provided function does
+     * not return an Option.
      */
     Option.prototype.map = function (fn) {
         return this.isSome() ?
@@ -134,6 +134,25 @@ var Option = /** @class */ (function () {
      */
     Option.map = function (fn) {
         return function (opt) { return opt.map(fn); };
+    };
+    /**
+     * An alias for Option.map. Perhaps a more accurate or descriptive
+     * name.
+     *
+     * Lifts a function of type (val: A) => B
+     * to be a function of type (val: Option<A>) => Option<B>.
+     *
+     * @example
+     * // Working with number
+     * const addFive = (val) => val + 5;
+     * const eight = addFive(3);
+     *
+     * // Working with Option<number>
+     * const addFiveToOption = Option.lift(addFive);
+     * const maybeEight = addFiveToOption(Some(3));
+     */
+    Option.lift = function (fn) {
+        return Option.map(fn);
     };
     /**
      * Equivalent to map but returns the underlying value instead of an
@@ -201,7 +220,8 @@ var Option = /** @class */ (function () {
     };
     /**
      * Usable in place of both map and flatMap.
-     * Accepts a function that returns either an Option or non Option value.
+     * Accepts a function that returns either an Option or non Option
+     * value.
      *
      * Always returns an Option.
      *
@@ -367,12 +387,12 @@ var Option = /** @class */ (function () {
      * None().log(); // => "None"
      *
      * const customLogger = (opt: Option<number>): string => {
-     *     return "~~~~~~~~~~~~~ " + opt.toStr() + " ~~~~~~~~~~~~~";
+     *     return ~~~~~~~~~~~ " + opt.toStr() + " ~~~~~~~~~~";
      * }
      *
-     * Some(3).log(customLogger) // => "~~~~~~~~~~~~~ Some(3) ~~~~~~~~~~~~~"
+     * Some(3).log(customLogger) // => "~~~~~~~~~~ Some(3) ~~~~~~~~~~"
      * // Or defined inline and not even using the instance
-     * Some(3).log(() => "---- I AM HERE ----"); // => "---- I AM HERE ----"
+     * Some(3).log(() => "-- I AM HERE --"); // => "-- I AM HERE --"
      * ```
      */
     Option.prototype.log = function (customToString) {

@@ -44,12 +44,16 @@ describe("Some", () => {
         expect(Some(3).map(val => val + "5")).toStrictEqual(Some("35"));
     });
 
-    test("static map", () => {
+    test("static map/lift", () => {
         const multiplyByTen = (val: number): number => val * 10;
+
         const optMultiplyByTen = Option.map(multiplyByTen);
+        const alsoOptMultiplyByTen = Option.lift(multiplyByTen);
+
         const myOpt = Some(3);
 
         expect(optMultiplyByTen(myOpt)).toStrictEqual(Some(30));
+        expect(alsoOptMultiplyByTen(myOpt)).toStrictEqual(Some(30));
     });
 
     test("fold", () => {
@@ -62,7 +66,9 @@ describe("Some", () => {
 
     test("static flatMap", () => {
         const multiplyByTen = (val: number): Option<number> => Some(val * 10);
+
         const optMultiplyByTen = Option.flatMap(multiplyByTen);
+
         const myOpt = Some(3);
 
         expect(optMultiplyByTen(myOpt)).toStrictEqual(Some(30));
@@ -84,17 +90,20 @@ describe("Some", () => {
     });
 
     test("then 2", () => {
+        const maybeDoubleMaybeTriple = (val: number): Option<number> => Math.random() > .5 ?
+            Some(val * 2) :
+            Some(val * 3)
+
+        const alwaysHalve = (val: number) => val/2;
+
         const myOpt = Some(10);
 
-        const maybeDouble = (val: number): Option<number> => Math.random() > .5 ?
-            Some(val * 2) :
-            Some(val * 10)
+        const someNumber = myOpt.then(maybeDoubleMaybeTriple)
+                                .then(alwaysHalve);
 
-        const someNum = myOpt.then(maybeDouble);
-
-        expect(someNum).toBeInstanceOf(Option);
-        expect(someNum.get()).toBeGreaterThanOrEqual(20);
-        expect(someNum.get()).toBeLessThanOrEqual(100);
+        expect(someNumber).toBeInstanceOf(Option);
+        expect(someNumber.get()).toBeGreaterThanOrEqual(10);
+        expect(someNumber.get()).toBeLessThanOrEqual(15);
     });
 
     test("then 3", () => {
@@ -137,19 +146,15 @@ describe("Some", () => {
 
     test("contains", () => {
         expect(Some(3).contains(5)).toBe(false);
-    });
 
-    test("contains", () => {
         expect(
             Some({ name: "Sam" })
-            .contains(
-                { name: "Sam" },
-                (a, b) => a.name === b.name
-            )
+                .contains(
+                    { name: "Sam" },
+                    (a, b) => a.name === b.name
+                )
         ).toBe(true)
-    });
 
-    test("contains", () => {
         expect(Some(3).contains(3)).toBe(true);
     });
 
@@ -170,7 +175,7 @@ describe("Some", () => {
     });
 
     test("log", () => {
-        const consoleLogSpy = jest.spyOn(console, "log").mockImplementation(() => {});
+        const consoleLogSpy = jest.spyOn(console, "log").mockImplementation(() => { });
         const myOpt = Some(30);
 
         myOpt.log();
@@ -181,7 +186,7 @@ describe("Some", () => {
     });
 
     test("log with custom logging function", () => {
-        const consoleLogSpy = jest.spyOn(console, "log").mockImplementation(() => {});
+        const consoleLogSpy = jest.spyOn(console, "log").mockImplementation(() => { });
         const customLoggerSpy = jest.fn().mockImplementation((
             opt: Option<number>
         ): string => {
@@ -198,7 +203,7 @@ describe("Some", () => {
     });
 
     test("logAndContinue", () => {
-        const consoleLogSpy = jest.spyOn(console, "log").mockImplementation(() => {});
+        const consoleLogSpy = jest.spyOn(console, "log").mockImplementation(() => { });
 
         const customLoggerMockOne = jest.fn().mockImplementation((
             opt: Option<number>

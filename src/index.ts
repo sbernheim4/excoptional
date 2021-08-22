@@ -69,7 +69,7 @@ export class Option<A> {
         }
 
         throw new Error(
-`Attempted to get a None. If you're seeing this something internal went wrong.
+            `Attempted to get a None. If you're seeing this something internal went wrong.
 Please file a minimal working example in a Github Issue.
 This error should never be thrown.`
         );
@@ -112,12 +112,12 @@ This error should never be thrown.`
      * the transformed value in an Option.
      * Returns a None otherwise.
      *
-     * @remarks Prefer this to `flatMap` when the provided function does not
-     * return an Option.
+     * @remarks Prefer this to `flatMap` when the provided function does
+     * not return an Option.
      */
     map<B>(fn: (val: A) => B): Option<B> {
         return this.isSome() ?
-            Some(fn(this.internalGet())):
+            Some(fn(this.internalGet())) :
             None();
     }
 
@@ -153,6 +153,30 @@ This error should never be thrown.`
     }
 
     /**
+     * An alias for Option.map. Perhaps a more accurate or descriptive
+     * name.
+     *
+     * Lifts a function of type (val: A) => B
+     * to be a function of type (val: Option<A>) => Option<B>.
+     *
+     * @example
+     * // Working with number
+     * const addFive = (val) => val + 5;
+     * const eight = addFive(3);
+     *
+     * // Working with Option<number>
+     * const addFiveToOption = Option.lift(addFive);
+     * const maybeEight = addFiveToOption(Some(3));
+     */
+    static lift<B, A>(fn: (
+        val: A
+    ) => B): (
+            opt: Option<A>
+        ) => Option<B> {
+        return Option.map(fn)
+    }
+
+    /**
      * Equivalent to map but returns the underlying value instead of an
      * Option. Returns one of alternativeVal (if provided) or undefined
      * if the instance is a None.
@@ -175,7 +199,7 @@ This error should never be thrown.`
      */
     flatMap<B>(fn: (val: A) => Option<B>): Option<B> {
         return this.isSome() ?
-            fn(this.internalGet()):
+            fn(this.internalGet()) :
             None();
     }
 
@@ -223,7 +247,8 @@ This error should never be thrown.`
 
     /**
      * Usable in place of both map and flatMap.
-     * Accepts a function that returns either an Option or non Option value.
+     * Accepts a function that returns either an Option or non Option
+     * value.
      *
      * Always returns an Option.
      *
@@ -314,7 +339,7 @@ This error should never be thrown.`
      */
     filter(filterFn: (val: A) => boolean): Option<A> {
         return this.isSome() && filterFn(this.internalGet()) ?
-            this:
+            this :
             None();
     }
 
@@ -383,7 +408,7 @@ This error should never be thrown.`
      */
     toString(): string {
         return this.isSome() ?
-            `Some(${this.internalGet()})`:
+            `Some(${this.internalGet()})` :
             "None";
     }
 
@@ -412,12 +437,12 @@ This error should never be thrown.`
      * None().log(); // => "None"
      *
      * const customLogger = (opt: Option<number>): string => {
-     *     return "~~~~~~~~~~~~~ " + opt.toStr() + " ~~~~~~~~~~~~~";
+     *     return ~~~~~~~~~~~ " + opt.toStr() + " ~~~~~~~~~~";
      * }
      *
-     * Some(3).log(customLogger) // => "~~~~~~~~~~~~~ Some(3) ~~~~~~~~~~~~~"
+     * Some(3).log(customLogger) // => "~~~~~~~~~~ Some(3) ~~~~~~~~~~"
      * // Or defined inline and not even using the instance
-     * Some(3).log(() => "---- I AM HERE ----"); // => "---- I AM HERE ----"
+     * Some(3).log(() => "-- I AM HERE --"); // => "-- I AM HERE --"
      * ```
      */
     log(customToString?: (opt: this) => string): void {

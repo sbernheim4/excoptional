@@ -103,7 +103,7 @@ describe("None", () => {
     });
 
     test("log", () => {
-        const consoleLogSpy = jest.spyOn(console, "log").mockImplementation(() => {});
+        const consoleLogSpy = jest.spyOn(console, "log").mockImplementation(() => { });
         const myOpt = None();
 
         myOpt.log();
@@ -114,7 +114,7 @@ describe("None", () => {
     });
 
     test("log with custom logging function", () => {
-        const consoleLogSpy = jest.spyOn(console, "log").mockImplementation(() => {});
+        const consoleLogSpy = jest.spyOn(console, "log").mockImplementation(() => { });
         const customLoggerMock = jest.fn().mockImplementation((
             opt: Option<number>
         ): string => {
@@ -132,7 +132,7 @@ describe("None", () => {
     });
 
     test("logAndContinue", () => {
-        const consoleLogSpy = jest.spyOn(console, "log").mockImplementation(() => {});
+        const consoleLogSpy = jest.spyOn(console, "log").mockImplementation(() => { });
 
         const customLoggerMockOne = jest.fn().mockImplementation((
             opt: Option<number>
