@@ -123,12 +123,12 @@ Prefer typing options as `Option<T>` over `Some<T> | None`.
 
 ```ts
 // Bad ❌
-const myFunc = (): Some<number> | None => {
+const myFunc = (): Some<string> | None => {
     return Math.random() * 100 > 50 ? Some("Success") : None();
 }
 
 // Good ✅
-const myFunc = (): Option<number> => {
+const myFunc = (): Option<string> => {
     return Math.random() * 100 > 50 ? Some("Success") : None();
 }
 ```
