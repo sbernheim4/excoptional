@@ -545,17 +545,3 @@ logAndContinue(customToString?: (opt: this) => string): Option<A>
  */
 static of<A>(val?: A): Option<A>
 ```
-
-### Contributing
-1. Fork this repo.
-2. Run `npm install`.
-3. Make your changes.
-4. Update tests and validate they all pass and coverage remains at 100%.
-5. Update README (add new methods, changed types, updated descriptions).
-6. Run `npm run build`.
-7. Add all built files (build folder, updated coverage reports).
-8. Open a PR.
-
-> Watch versions of npm commands are available.
-* `npm run test:watch`
-* `npm run build:watch`
