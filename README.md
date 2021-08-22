@@ -8,6 +8,8 @@ This library is simple and provides the best possible TypeScript support for aut
 
 Code Coverage is 100% across statements, branches, functions, and lines.
 
+This package adheres to semantic versioning.
+
 ### Benefits of Options (and this specific pacakge)
 
 > All the code examples below are runnable in a TypeScript environment with this package installed.
