@@ -116,17 +116,14 @@ const result = yetAnotherOption
 ### Notes and Best Practices
 
 #### Typing Functions that Return Options
-When writing a function that retuns an `Option`, always explicitly type that function's return type as an `Option<T>`. Prefer typing the return value as `Option<T>` over `Some<T> | None`. This helps the compiler provide support for type inference and provides a better experience.
-In a JavaScript codebase, type the function through JSDocs
+> Type inference should work well as of version 1.2.1 and up. The below recommendations may still help if you're having difficulty getting accurate type support.
+
+When writing a function that returns an `Option`, specifying the return type may provide a better experience.
+Prefer typing options as `Option<T>` over `Some<T> | None`.
 
 ```ts
 // Bad ❌
 const myFunc = (): Some<number> | None => {
-    return Math.random() * 100 > 50 ? Some("Success") : None();
-}
-
-// Bad ❌
-const myFunc = () => {
     return Math.random() * 100 > 50 ? Some("Success") : None();
 }
 

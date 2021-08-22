@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1629655033526" clover="3.2.0">
-  <project timestamp="1629655033526" name="All files">
+<coverage generated="1629656698394" clover="3.2.0">
+  <project timestamp="1629656698394" name="All files">
     <metrics statements="70" coveredstatements="70" conditionals="46" coveredconditionals="46" methods="33" coveredmethods="33" elements="149" coveredelements="149" complexity="0" loc="70" ncloc="70" packages="1" files="1" classes="1"/>
     <file name="index.ts" path="/Users/sambernheim/Excoptional/src/index.ts">
       <metrics statements="70" coveredstatements="70" conditionals="46" coveredconditionals="46" methods="33" coveredmethods="33"/>
-      <line num="2" count="50" type="stmt"/>
-      <line num="4" count="62" type="stmt"/>
+      <line num="2" count="48" type="stmt"/>
+      <line num="4" count="64" type="stmt"/>
       <line num="9" count="2" type="stmt"/>
       <line num="16" count="112" type="stmt"/>
       <line num="22" count="2" type="stmt"/>
       <line num="23" count="5" type="stmt"/>
       <line num="29" count="2" type="stmt"/>
-      <line num="30" count="103" type="stmt"/>
+      <line num="30" count="104" type="stmt"/>
       <line num="37" count="2" type="stmt"/>
       <line num="38" count="2" type="stmt"/>
       <line num="45" count="2" type="stmt"/>
@@ -19,8 +19,8 @@
       <line num="53" count="2" type="stmt"/>
       <line num="54" count="8" type="stmt"/>
       <line num="66" count="2" type="stmt"/>
-      <line num="67" count="33" type="cond" truecount="2" falsecount="0"/>
-      <line num="68" count="32" type="stmt"/>
+      <line num="67" count="34" type="cond" truecount="2" falsecount="0"/>
+      <line num="68" count="33" type="stmt"/>
       <line num="71" count="1" type="stmt"/>
       <line num="82" count="2" type="stmt"/>
       <line num="83" count="7" type="stmt"/>
@@ -40,9 +40,9 @@
       <line num="245" count="1" type="stmt"/>
       <line num="282" count="2" type="stmt"/>
       <line num="284" count="7" type="cond" truecount="2" falsecount="0"/>
-      <line num="285" count="4" type="stmt"/>
-      <line num="287" count="4" type="stmt"/>
-      <line num="292" count="3" type="stmt"/>
+      <line num="285" count="5" type="stmt"/>
+      <line num="287" count="5" type="stmt"/>
+      <line num="292" count="2" type="stmt"/>
       <line num="322" count="2" type="stmt"/>
       <line num="323" count="3" type="cond" truecount="2" falsecount="0"/>
       <line num="324" count="1" type="stmt"/>

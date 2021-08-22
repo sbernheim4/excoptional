@@ -1,10 +1,10 @@
 // @ts-ignore
-export const None = () => new Option(undefined);
+export const None = (): None => new Option(undefined);
 // @ts-ignore
 export const Some = <T>(val: T): Some<T> => new Option(val);
 
 export type Some<A> = Option<A>;
-export type None = Option<undefined>;
+export type None = Option<never>;
 
 export class Option<A> {
     private val: A;

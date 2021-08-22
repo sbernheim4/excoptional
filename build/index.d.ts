@@ -1,7 +1,7 @@
-export declare const None: () => any;
+export declare const None: () => None;
 export declare const Some: <T>(val: T) => Some<T>;
 export declare type Some<A> = Option<A>;
-export declare type None = Option<undefined>;
+export declare type None = Option<never>;
 export declare class Option<A> {
     private val;
     /**
