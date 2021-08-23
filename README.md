@@ -317,7 +317,7 @@ static lift<B, A>(fn: (
  *     Some(18),
  *     Some(4),
  *     Some(6)
- * ) // => Some(28)
+ * ); // => Some(28)
  *
  * // Since the 2nd argument (b) is defined as an object with a
  * // property age whose type is a number, the 2nd Option must be
@@ -328,18 +328,7 @@ static lift<B, A>(fn: (
  *     (a: number) => (b: { age: number }) => a + b.age,
  *     Some(78),
  *     Some({ age: 22 })
- * ) // => Some(100)
- *
- * // Since the passed function must be curried, it's possible to
- * // partially apply only some of the arguments when invoking liftN
- * // and apply the remaining arguments later.
- * const partiallyApllied = Option.liftN(
- *     (a: number) => (b: number) => (c: number) => a * b + c,
- *     Some(1)
- * );
- *
- * partiallyApplied.ap(Some(4)).ap(Some(6)) // => Some(11)
- * ```
+ * ); // => Some(100)
  */
 static liftN<T>(
     fn,

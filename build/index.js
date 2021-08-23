@@ -180,7 +180,7 @@ var Option = /** @class */ (function () {
      *     Some(18),
      *     Some(4),
      *     Some(6)
-     * ) // => Some(28)
+     * ); // => Some(28)
      *
      * // Since the 2nd argument (b) is defined as an object with a
      * // property age whose type is a number, the 2nd Option must be
@@ -191,7 +191,7 @@ var Option = /** @class */ (function () {
      *     (a: number) => (b: { age: number }) => a + b.age,
      *     Some(78),
      *     Some({ age: 22 })
-     * ) // => Some(100)
+     * ); // => Some(100)
      * ```
      */
     Option.liftN = function (
