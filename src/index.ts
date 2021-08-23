@@ -231,13 +231,8 @@ This error should never be thrown.`
                 return opt as Option<T>;
             }
 
-            if (!shadowArgs[0]) {
-                // TODO: Figure out how to test this bit
-                return None();
-            }
-
             const updatedValue = opt.ap(
-                shadowArgs[0]
+                shadowArgs[0] as Option<unknown>
             );
 
             return recurse(
