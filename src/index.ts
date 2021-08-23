@@ -187,13 +187,13 @@ This error should never be thrown.`
      * @remarks This function has very weak type support and strict
      * requirements to work correctly. Use with caution.
      * @remarks The provided function **must** be completely curried.
-     * @remarks If any of the provided Option arguments are a None, a None will
-     * be returned.
+     * @remarks If any of the provided Option arguments are a None, a
+     * None will be returned.
      * @remarks Each argument in the provided curried function must have
-     * the same type as its corresponding Option type. See the 2nd example
-     * below.
-     * @remarks All of the Option arguments for the provided function must be
-     * passed when liftN is invoked.
+     * the same type as its corresponding Option type. See the 2nd
+     * example below.
+     * @remarks All of the Option arguments for the provided function
+     * must be passed when liftN is invoked.
      *
      * @example
      * ```
@@ -222,7 +222,10 @@ This error should never be thrown.`
         ...args: [Option<unknown>, ...Option<unknown>[]]
     ): Option<T> {
 
-        const recurse = (opt: Option<unknown | T>, shadowArgs: Option<unknown>[]): Option<T> => {
+        const recurse = (
+            opt: Option<unknown | T>,
+            shadowArgs: Option<unknown>[]
+        ): Option<T> => {
 
             if (shadowArgs.length === 0) {
                 return opt as Option<T>;
