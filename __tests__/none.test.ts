@@ -40,6 +40,18 @@ describe("None", () => {
         expect(None().map(val => val + "5")).toStrictEqual(None());
     });
 
+    test("ap", () => {
+        const functionToUse = None();
+        const maybe8 = Some(8);
+        const maybe10 = functionToUse.ap(maybe8);
+
+        expect(maybe10).toStrictEqual(None());
+
+        // When the underlying value is not a function, None should be returned.
+        const shouldBeNone = Some({name: 'sam'}).ap(Some(3));
+        expect(shouldBeNone).toStrictEqual(None());
+    });
+
     test("fold", () => {
         // @ts-ignore
         expect(None().fold(val => val + "5")).toBeUndefined();

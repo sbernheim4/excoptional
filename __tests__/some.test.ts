@@ -56,6 +56,41 @@ describe("Some", () => {
         expect(alsoOptMultiplyByTen(myOpt)).toStrictEqual(Some(30));
     });
 
+    test("static liftN", () => {
+        const resOne = Option.liftN<number>(
+            (a: number) => (b: number) => (c: number) => a + b + c,
+                Some(18),
+            Some(4),
+            Some(6)
+        );
+
+        expect(resOne).toStrictEqual(Some(28))
+
+        const resTwo = Option.liftN<number>(
+            (a: number) => (b: { age: number }) => a + b.age,
+            Some(78),
+            Some({ age: 22 })
+        );
+
+        expect(resTwo).toStrictEqual(Some(100));
+    });
+
+    test("ap", () => {
+        const getFunctionToUse = (): Option<(val: number) => number> => {
+            return Math.random() > .5 ?
+                Some((val) => val + 2) :
+                Some((val) => val + 5)
+        }
+
+        const functionToUse = getFunctionToUse();
+
+        const some8 = Some(8);
+        const maybe10 = functionToUse.ap(some8);
+
+        expect(maybe10.get()).toBeGreaterThanOrEqual(10);
+        expect(maybe10.get()).toBeLessThanOrEqual(13);
+    });
+
     test("fold", () => {
         expect(Some(3).fold(val => val + "5")).toBe("35");
     });
