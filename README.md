@@ -120,12 +120,18 @@ const result = yetAnotherOption
 #### Typing Functions that Return Options
 > Type inference should work well as of version 1.2.1 and up. The below recommendations may still help if you're having difficulty getting accurate type support.
 
-When writing a function that returns an `Option`, specifying the return type may provide a better experience.
+Without an explict return type specified, the inferred return type of a function that returns `Some(val)` or `None()` may only appear as `Some<T>`. Specify the return type as `Option<T>` if you prefer to see that when hovering over the function or invocations to it.
 Prefer typing options as `Option<T>` over `Some<T> | None`.
 
 ```ts
 // Bad ❌
 const myFunc = (): Some<string> | None => {
+    return Math.random() * 100 > 50 ? Some("Success") : None();
+}
+
+// 🆗 - Type inference works but will show as Some<string>
+// rather than Option<string>
+const myFunc = () => {
     return Math.random() * 100 > 50 ? Some("Success") : None();
 }
 
@@ -159,6 +165,8 @@ If unsure of which method to use to transform the underlying value, `then` shoul
 * `then` can be used regardless if the provided function returns an Option or not.
 
 #### `flatten` Method Behavior
+> Most Option implementations have the potential to `throw` when `flatten` is invoked. This implementation will **not** `throw`. The behavior for the method is described below.
+
 When calling the `flatten` method
 * if the current `Option` is a `None`, a `None` will be returned.
 * if the current `Option` is a `Some` but the underlying value is not an `Option`, the instance is returned.
@@ -169,9 +177,9 @@ In essence, this method is guaranteed to always return an `Option` and never thr
 If it does, please file an issue.
 
 #### Types
-* `None` and `Option<undefined>` are equivalent.
-* `Some<T>` and `Option<T>` are equivalent (`T` should be neither `undefined` nor `null`).
 * You should never need to create a `Some` to hold `null` or `undefined`. `None` should replace any instances of `null` and `undefined`.
+* `Some<T>` and `Option<T>` are equivalent (where `T` is neither `null` nor `undefined`).
+* `None` and `Option<undefined>` are equivalent.
 
 ### Methods
 
