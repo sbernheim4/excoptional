@@ -292,22 +292,6 @@ static lift<B, A>(fn: (
 ) => Option<B>
 
 /**
- * An alias for Option.map.
- *
- * Lifts a function of type (val: A) => B
- * to be a function of type (opt: Option<A>) => Option<B>.
- *
- * @example
- * // Working with number
- * const addFive = (val) => val + 5;
- * const eight = addFive(3);
- *
- * // Working with Option<number>
- * const addFiveToOption = Option.lift(addFive);
- * const maybeEight = addFiveToOption(Some(3));
- */
-static lift<B, A>(fn: ( val: A) => B): ( opt: Option<A>) => Option<B>
-/**
  * Equivalent to map but returns the underlying value instead of an
  * Option. Returns one of alternativeVal (if provided) or undefined
  * if the instance is a None.
