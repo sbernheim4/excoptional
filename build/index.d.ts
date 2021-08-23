@@ -107,7 +107,7 @@ export declare class Option<A> {
      *
      * @example
      * // Working with number
-     * const addFive = (val) => val + 5;
+     * const addFive = (val: number) => val + 5;
      * const eight = addFive(3);
      *
      * // Working with Option<number>
@@ -121,16 +121,18 @@ export declare class Option<A> {
      *
      * Lifts a function, with an arbitrary number of arguments, where
      * each argument is not an Option, to be a function that works on
-     * Optional versions of those arguments.
+     * Option versions of those arguments.
      *
      * @remarks This function has very weak type support and strict
      * requirements to work correctly. Use with caution.
      * @remarks The provided function **must** be completely curried.
-     * @remarks If any of the provided Optionals are a None, a None will
+     * @remarks If any of the provided Option arguments are a None, a None will
      * be returned.
      * @remarks Each argument in the provided curried function must have
-     * the same type as its corresponding Optional type. See the 2nd
-     * example below.
+     * the same type as its corresponding Option type. See the 2nd example
+     * below.
+     * @remarks All of the Option arguments for the provided function must be
+     * passed when liftN is invoked.
      *
      * @example
      * ```
@@ -147,20 +149,10 @@ export declare class Option<A> {
      * // called age whose value is a number. This required relationship
      * // is **not** enforced by the type system.
      * Option.liftN<number>(
-     *     (a: number) => (b: { age: number }) => a + b.age
+     *     (a: number) => (b: { age: number }) => a + b.age,
      *     Some(78),
      *     Some({ age: 22 })
      * ) // => Some(100)
-     *
-     * // Since the passed function must be curried, it's possible to
-     * // partially apply only some of the arguments when invoking liftN
-     * // and apply the remaining arguments later.
-     * const partiallyApllied = Option.liftN(
-     *     (a: number) => (b: number) => (c: number) => a * b + c,
-     *     Some(1)
-     * );
-     *
-     * partiallyApplied.ap(Some(4)).ap(Some(6)) // => Some(11)
      * ```
      */
     static liftN<T>(fn: any, ...args: [Option<unknown>, ...Option<unknown>[]]): Option<T>;
@@ -256,7 +248,7 @@ export declare class Option<A> {
      * If the instance is a None, a None is returned.
      * If the provided function returns an Option, the result of
      * applying the function to the underlying value is returned.
-     * If the provided function returns a non Optional, the result of
+     * If the provided function returns a non Option, the result of
      * applying the function to the underlying value is lifted into an
      * Option and returned.
      *
