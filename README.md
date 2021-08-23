@@ -292,6 +292,85 @@ static lift<B, A>(fn: (
 ) => Option<B>
 
 /**
+ * Like Option.lift but for functions with an arbitrary number of
+ * arguments instead of just one.
+ *
+ * Lifts a function, with an arbitrary number of arguments, where
+ * each argument is not an Option, to be a function that works on
+ * Optional versions of those arguments.
+ *
+ * @remarks This function has very weak type support and strict
+ * requirements to work correctly. Use with caution.
+ * @remarks The provided function **must** be completely curried.
+ * @remarks If any of the provided Optionals are a None, a None will
+ * be returned.
+ * @remarks Each argument in the provided curried function must have
+ * the same type as its corresponding Optional type. See the 2nd
+ * example below.
+ *
+ * @example
+ * ```
+ * Option.liftN<number>(
+ *     (a: number) => (b: number) => (c: number) => a + b + c,
+ *     Some(18),
+ *     Some(4),
+ *     Some(6)
+ * ) // => Some(28)
+ *
+ * // Since the 2nd argument (b) is defined as an object with a
+ * // property age whose type is a number, the 2nd Option must be
+ * // an Option whose underlying value is an Object with a property
+ * // called age whose value is a number. This required relationship
+ * // is **not** enforced by the type system.
+ * Option.liftN<number>(
+ *     (a: number) => (b: { age: number }) => a + b.age
+ *     Some(78),
+ *     Some({ age: 22 })
+ * ) // => Some(100)
+ *
+ * // Since the passed function must be curried, it's possible to
+ * // partially apply only some of the arguments when invoking liftN
+ * // and apply the remaining arguments later.
+ * const partiallyApllied = Option.liftN(
+ *     (a: number) => (b: number) => (c: number) => a * b + c,
+ *     Some(1)
+ * );
+ *
+ * partiallyApplied.ap(Some(4)).ap(Some(6)) // => Some(11)
+ * ```
+ */
+static liftN<T>(
+    fn,
+    ...args: [Option<unknown>, ...Option<unknown>[]]
+): Option<T>
+
+/**
+ * Applies the function, wrapped in the current Option instance, to
+ * the provided Option, returning the result.
+ *
+ * @remarks This should only be used when the instance contains a
+ * function of the type (val: A) => B.
+ * @remarks Useful when the function to apply to another Option is
+ * itself wrapped in an Option.
+ *
+ * @example
+ * ```
+ * const getFunctionToUse = (): Option<(val: number) => number> => {
+ *     return Math.random() > .5 ?
+ *         Some((val) => val + 2) :
+ *         None();
+ * }
+ *
+ * // functionToUse is Option<(val: number) => number>
+ * const functionToUse = getFunctionToUse();
+ *
+ * const some8 = Some(8);
+ * const maybe10 = functionToUse.ap(some8); // => Some(10)
+ * ```
+ */
+ap<B, C>(opt: Option<B>): Option<C>
+
+/**
  * Equivalent to map but returns the underlying value instead of an
  * Option. Returns one of alternativeVal (if provided) or undefined
  * if the instance is a None.
