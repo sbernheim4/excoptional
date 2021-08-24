@@ -505,8 +505,8 @@ filter(filterFn: (val: A) => boolean): Option<A>
 filterNot(filterFn: (val: A) => boolean): Option<A>
 
 /**
- * Returns true if the underlying value contains the provided
- * argument. Returns false otherwise.
+ * Returns true if the instance's underlying value equals the
+ * provided argument. Returns false otherwise.
  *
  * @remarks Accepts an optional equality function for comparing two
  * values for when the underlying value is not a primitive. By
@@ -530,13 +530,13 @@ toArray(): [A] | []
 toSet(): Set<A>
 
 /**
- * Returns a string representation of the option.
+ * Returns a string representation of the Option.
  * Useful for console logging an instance.
  *
  * @example
  * ```
  * console.log(Some(3)); // => "Some(3)"
- * console.log(None); // => "None"
+ * console.log(None()); // => "None"
  * ```
  */
 toString(): string
@@ -554,7 +554,7 @@ toStr(): string
  * customToString is a function you implement that returns a string.
  * The string returned by customToString will be used in place of
  * the string returned by toString method.
- * customToString will have access to the option instance as well
+ * customToString will have access to the Option instance as well
  * but should **not** mutate the instance in any way (by calling
  * map, flatMap, then, filter, etc).
  *
@@ -584,7 +584,7 @@ log(customToString?: (opt: this) => string): void
  * customToString is a function you implement that returns a string.
  * The string returned by customToString will be used in place of
  * the string returned by toString method.
- * customToString will have access to the option instance as well
+ * customToString will have access to the Option instance as well
  * but should **not** mutate the instance in any way (by calling
  * map, flatMap, then, filter, etc).
  *
