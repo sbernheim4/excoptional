@@ -1,7 +1,7 @@
 {
   "name": "excoptional",
   "version": "1.3.1",
-  "description": "A typed, standalone Option object for JavaScript and Typescript",
+  "description": "A typed, standalone Option object for JavaScript and TypeScript",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "repository": "github:sbernheim4/Excoptional",
