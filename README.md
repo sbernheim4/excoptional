@@ -177,7 +177,7 @@ In essence, this method is guaranteed to always return an `Option` and never thr
 If it does, please file an issue.
 
 ### Types
-* Never pass `undefined` when calling `Some`. `None` should replace all instances of `undefined` along with `null`.
+* Never pass `undefined` when invoking `Some()`. `None()` should replace all instances of `undefined` along with `null`.
 * `Some<T>` and `Option<T>` are equivalent (where `T` is neither `null` nor `undefined`).
 * `None` and `Option<undefined>` are equivalent.
 
