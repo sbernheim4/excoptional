@@ -12,6 +12,12 @@ export declare const None: () => None;
 export declare const Some: <T>(val: T) => Some<T>;
 export declare type Some<A> = Option<A>;
 export declare type None = Option<never>;
+/**
+ * The Option class
+ *
+ * Construct instances of Options through the provided `Some` and `None`
+ * functions or the class's static `of` method.
+ */
 export declare class Option<A> {
     private val;
     /**

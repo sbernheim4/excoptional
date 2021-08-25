@@ -20,6 +20,12 @@ export const Some = <T>(val: T): Some<T> => {
 export type Some<A> = Option<A>;
 export type None = Option<never>;
 
+/**
+ * The Option class
+ *
+ * Construct instances of Options through the provided `Some` and `None`
+ * functions or the class's static `of` method.
+ */
 export class Option<A> {
     private val: A;
 
@@ -246,7 +252,7 @@ This error should never be thrown.`
             }
 
             const updatedValue = opt.ap(
-                shadowArgs.at(0) as Option<unknown>
+                shadowArgs[0] as Option<unknown>
             );
 
             return recurse(

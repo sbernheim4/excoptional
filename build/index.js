@@ -21,6 +21,12 @@ var Some = function (val) {
     return new Option(val);
 };
 exports.Some = Some;
+/**
+ * The Option class
+ *
+ * Construct instances of Options through the provided `Some` and `None`
+ * functions or the class's static `of` method.
+ */
 var Option = /** @class */ (function () {
     /**
      * Construct an instance of an Option.
@@ -219,7 +225,7 @@ var Option = /** @class */ (function () {
             if (shadowArgs.length === 0) {
                 return opt;
             }
-            var updatedValue = opt.ap(shadowArgs.at(0));
+            var updatedValue = opt.ap(shadowArgs[0]);
             return recurse(updatedValue, shadowArgs.slice(1));
         };
         var initialValue = args[0].map(function () { return fn; });
