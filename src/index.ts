@@ -1,7 +1,21 @@
-// @ts-ignore
-export const None = (): None => new Option(undefined);
-// @ts-ignore
-export const Some = <T>(val: T): Some<T> => new Option(val);
+/**
+ * Creates and returns a None. Takes no arguments.
+ */
+export const None = (): None => {
+    // @ts-ignore
+    return new Option(undefined);
+}
+/**
+ * Creates and returns a Some using the provided argument as the
+ * underlying value.
+ *
+ * @remarks Do not pass undefined as the argument to this function.
+ * Doing so will create a Some that will behave like a None.
+ */
+export const Some = <T>(val: T): Some<T> => {
+    // @ts-ignore
+    return new Option(val);
+}
 
 export type Some<A> = Option<A>;
 export type None = Option<never>;
@@ -232,7 +246,7 @@ This error should never be thrown.`
             }
 
             const updatedValue = opt.ap(
-                shadowArgs[0] as Option<unknown>
+                shadowArgs.at(0) as Option<unknown>
             );
 
             return recurse(

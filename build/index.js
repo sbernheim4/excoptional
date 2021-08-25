@@ -1,11 +1,25 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Option = exports.Some = exports.None = void 0;
-// @ts-ignore
-var None = function () { return new Option(undefined); };
+/**
+ * Creates and returns a None. Takes no arguments.
+ */
+var None = function () {
+    // @ts-ignore
+    return new Option(undefined);
+};
 exports.None = None;
-// @ts-ignore
-var Some = function (val) { return new Option(val); };
+/**
+ * Creates and returns a Some using the provided argument as the
+ * underlying value.
+ *
+ * @remarks Do not pass undefined as the argument to this function.
+ * Doing so will create a Some that will behave like a None.
+ */
+var Some = function (val) {
+    // @ts-ignore
+    return new Option(val);
+};
 exports.Some = Some;
 var Option = /** @class */ (function () {
     /**
@@ -205,7 +219,7 @@ var Option = /** @class */ (function () {
             if (shadowArgs.length === 0) {
                 return opt;
             }
-            var updatedValue = opt.ap(shadowArgs[0]);
+            var updatedValue = opt.ap(shadowArgs.at(0));
             return recurse(updatedValue, shadowArgs.slice(1));
         };
         var initialValue = args[0].map(function () { return fn; });

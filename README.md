@@ -10,7 +10,7 @@ Code Coverage is 100% across statements, branches, functions, and lines.
 
 This package adheres to semantic versioning.
 
-### Benefits of Options (and this specific pacakge)
+## Benefits of Options (and this specific pacakge)
 
 > All the code examples below are runnable in a TypeScript environment with this package installed.
 
@@ -115,9 +115,9 @@ const result = yetAnotherOption
     .orElse(ourFinalOption) //=> Some('wow');
 ```
 
-### Notes and Best Practices
+## Notes and Best Practices
 
-#### Typing Functions that Return Options
+### Typing Functions that Return Options
 > Type inference should work well as of version 1.2.1 and up. The below recommendations may still help if you're having difficulty getting accurate type support.
 
 Without an explict return type specified, the inferred return type of a function that returns `Some(val)` or `None()` may only appear as `Some<T>`. Specify the return type as `Option<T>` if you prefer to see that when hovering over the function or invocations to it.
@@ -141,7 +141,7 @@ const myFunc = (): Option<string> => {
 }
 ```
 
-#### Logging Options
+### Logging Options
 When doing `console.log(myOpt);` it's best to do `console.log(myOpt.toString())`. This provides better output. JavaScript does not automatically invoke an object's `toString` method by default.
 
 For convenience, there is a shorter named equivalent `.toStr` method.
@@ -157,14 +157,14 @@ console.log(myOpt.toStr();
 myOpt.log();
 ```
 
-#### map vs flatMap vs then
+### map vs flatMap vs then
 If unsure of which method to use to transform the underlying value, `then` should always work and be suitable.
 
 * Use `map` when the provided function **does not** return an Option.
 * Use `flatMap` when the provided function **does** return an Option.
 * `then` can be used regardless if the provided function returns an Option or not.
 
-#### `flatten` Method Behavior
+### `flatten` Method Behavior
 > Most Option implementations have the potential to `throw` when `flatten` is invoked. This implementation will **not** `throw`. The behavior for the method is described below.
 
 When calling the `flatten` method
@@ -176,12 +176,12 @@ In essence, this method is guaranteed to always return an `Option` and never thr
 
 If it does, please file an issue.
 
-#### Types
-* You should never need to create a `Some` to hold `null` or `undefined`. `None` should replace any instances of `null` and `undefined`.
+### Types
+* Never pass `undefined` when calling `Some`. `None` should replace all instances of `undefined` along with `null`.
 * `Some<T>` and `Option<T>` are equivalent (where `T` is neither `null` nor `undefined`).
 * `None` and `Option<undefined>` are equivalent.
 
-### Methods
+## Methods
 
 The methods availale for an `Option` in this package are similar to those in many FP languages and packages. They are detailed below.
 
