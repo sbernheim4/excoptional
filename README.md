@@ -36,7 +36,7 @@ With options, no `null` and `undefined` checks are needed before manipulating th
 import { Option } from "excoptional";
 
 const uppercaseStrTwo = (value: Option<string>): Option<string> => {
-    value.map(str => str.toUpperCase());
+    return value.map(str => str.toUpperCase());
 }
 
 const myInputTwo = Some("hello world");
