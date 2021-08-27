@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1629860546239" clover="3.2.0">
-  <project timestamp="1629860546239" name="All files">
+<coverage generated="1630080057342" clover="3.2.0">
+  <project timestamp="1630080057342" name="All files">
     <metrics statements="88" coveredstatements="88" conditionals="52" coveredconditionals="52" methods="37" coveredmethods="37" elements="177" coveredelements="177" complexity="0" loc="88" ncloc="88" packages="1" files="1" classes="1"/>
     <file name="index.ts" path="/Users/sambernheim/excoptional/src/index.ts">
       <metrics statements="88" coveredstatements="88" conditionals="52" coveredconditionals="52" methods="37" coveredmethods="37"/>
