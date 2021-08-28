@@ -21,26 +21,27 @@ const uppercaseStrOne = (value: string): string => {
         return value.toUpperCase();
     }
 
-    return null;
+    return undefined;
 }
 
 const myInputOne = "hello world";
 
-// parsedInput could be null (or whatever the author of uppercaseStrOne
+// parsedInput could be undefined (or whatever the author of uppercaseStrOne
 // function decides when the condition is false).
 const parsedInput = uppercaseStrOne(myInputOne);
 ```
 
-With options, no `null` and `undefined` checks are needed before manipulating the value.
+With Options, no `null` and `undefined` checks are needed before manipulating the value.
 ```ts
-import { Option } from "excoptional";
+import { Some, Option } from "excoptional";
 
 const uppercaseStrTwo = (value: Option<string>): Option<string> => {
     return value.map(str => str.toUpperCase());
 }
 
 const myInputTwo = Some("hello world");
-const myParsedString = uppercaseStrTwo(myInputTwo).getOrElse("whatever we want");
+const parsedString = uppercaseStrTwo(myInputTwo).getOrElse("whatever we want");
+// => "HELLO WORLD" | "whatever we want"
 ```
 
 * The argument and return type of the function changes from a `string` to an `Option<string>` explicitly indicating that this function may or may not have a return value.
@@ -51,8 +52,6 @@ const myParsedString = uppercaseStrTwo(myInputTwo).getOrElse("whatever we want")
 This package provides a mechanism to seamlessly transform functions like `uppercaseStrOne` into `uppercaseStrTwo`; That is, functions that work on non `Option` values to functions that do work on `Option` values without rewriting all your functions. This way, you can reuse as much of your existing code as possible.
 
 ```ts
-import { Option } from "excoptional";
-
 // Using the original function uppercaseStrOne and the static version of map
 // from this package, we create a upper case function that works
 // on Option<string>.
@@ -100,7 +99,7 @@ myOtherOption.map(val => val.toUpperCase()); // None();
 
 
 // Instantiate an instance of an Option via the static of method
-const yetAnotherOption = Option.of(); // => None();
+const yetAnotherOption = Option.of<string>(); // => None();
 const ourFinalOption = Option.of("wow"); // => Some("wow");
 
 // and use them as any other option
@@ -149,11 +148,13 @@ For convenience, there is a shorter named equivalent `.toStr` method.
 For even more convenience, there is a `.log` method which will invoke `console.log` and the `toString` method for you.
 
 ```ts
+import { Some } from "excoptional";
+
 const myOpt = Some("Hello World");
 
 // The below are all equivalent
 console.log(myOpt.toString());
-console.log(myOpt.toStr();
+console.log(myOpt.toStr());
 myOpt.log();
 ```
 
