@@ -125,17 +125,17 @@ Specifying the return type is not required; `excoptional` supports type inferenc
 // Bad ❌
 const myFunc = (): Some<string> | None => {
     return Math.random() * 100 > 50 ? Some("Success") : None();
-}
+};
 
 // Good ✅
 const myFunc = (): Option<string> => {
     return Math.random() * 100 > 50 ? Some("Success") : None();
-}
+};
 
 // Good ✅
 const myFunc = () => {
     return Math.random() * 100 > 50 ? Some("Success") : None();
-}
+};
 ```
 
 ### Logging Options
