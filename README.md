@@ -117,10 +117,9 @@ const result = yetAnotherOption
 ## Notes and Best Practices
 
 ### Typing Functions that Return Options
-> Type inference should work well as of version 1.2.1 and up. The below recommendations may still help if you're having difficulty getting accurate type support.
+If you prefer explicit types on functions, prefer using `Option<T>` (replacing T with the type definition for the underlying value) over `Some<T> | None`.
 
-Without an explict return type specified, the inferred return type of a function that returns `Some(val)` or `None()` may only appear as `Some<T>`. Specify the return type as `Option<T>` if you prefer to see that when hovering over the function or invocations to it.
-Prefer typing options as `Option<T>` over `Some<T> | None`.
+Specifying the return type is not required; `excoptional` supports type inference.
 
 ```ts
 // Bad ❌
@@ -128,14 +127,13 @@ const myFunc = (): Some<string> | None => {
     return Math.random() * 100 > 50 ? Some("Success") : None();
 }
 
-// 🆗 - Type inference works but will show as Some<string>
-// rather than Option<string>
-const myFunc = () => {
+// Good ✅
+const myFunc = (): Option<string> => {
     return Math.random() * 100 > 50 ? Some("Success") : None();
 }
 
 // Good ✅
-const myFunc = (): Option<string> => {
+const myFunc = () => {
     return Math.random() * 100 > 50 ? Some("Success") : None();
 }
 ```
