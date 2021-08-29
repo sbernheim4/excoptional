@@ -1,7 +1,7 @@
 /**
  * Creates and returns a None. Takes no arguments.
  */
-export declare const None: () => None;
+export declare const None: () => Option<never>;
 /**
  * Creates and returns a Some using the provided argument as the
  * underlying value.
@@ -9,7 +9,7 @@ export declare const None: () => None;
  * @remarks Do not pass undefined as the argument to this function.
  * Doing so will create a Some that will behave like a None.
  */
-export declare const Some: <T>(val: T) => Some<T>;
+export declare const Some: <T>(val: T) => Option<T>;
 export declare type Some<A> = Option<A>;
 export declare type None = Option<never>;
 /**

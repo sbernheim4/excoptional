@@ -1,7 +1,7 @@
 /**
  * Creates and returns a None. Takes no arguments.
  */
-export const None = (): None => {
+export const None = (): Option<never> => {
     // @ts-ignore
     return new Option(undefined);
 }
@@ -12,7 +12,7 @@ export const None = (): None => {
  * @remarks Do not pass undefined as the argument to this function.
  * Doing so will create a Some that will behave like a None.
  */
-export const Some = <T>(val: T): Some<T> => {
+export const Some = <T>(val: T): Option<T> => {
     // @ts-ignore
     return new Option(val);
 }
