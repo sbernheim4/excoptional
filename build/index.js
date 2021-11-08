@@ -67,7 +67,7 @@ var Option = /** @class */ (function () {
     Option.prototype.get = function () {
         return this.isSome() ?
             this.val :
-            exports.None();
+            (0, exports.None)();
     };
     /**
      * @remarks Do not call this method. It is meant for internal use
@@ -122,8 +122,8 @@ var Option = /** @class */ (function () {
      */
     Option.prototype.map = function (fn) {
         return this.isSome() ?
-            exports.Some(fn(this.internalGet())) :
-            exports.None();
+            (0, exports.Some)(fn(this.internalGet())) :
+            (0, exports.None)();
     };
     /**
      * A static version of map. Useful for lifting functions of type
@@ -258,14 +258,14 @@ var Option = /** @class */ (function () {
     Option.prototype.ap = function (opt) {
         // If the instance is a None, return a None.
         if (this.isNone()) {
-            return exports.None();
+            return (0, exports.None)();
         }
         // At this point, this.get() must return a value of type A since
         // we've validated that this a Some.
         // If the underlying value's type is not a function, return a
         // None.
         if (typeof this.get() !== 'function') {
-            return exports.None();
+            return (0, exports.None)();
         }
         // At this point, the instance is a Some and the underlying
         // value is a function.
@@ -296,7 +296,7 @@ var Option = /** @class */ (function () {
     Option.prototype.flatMap = function (fn) {
         return this.isSome() ?
             fn(this.internalGet()) :
-            exports.None();
+            (0, exports.None)();
     };
     /**
      * A static version of flatMap. Useful for lifting functions of type
@@ -376,9 +376,9 @@ var Option = /** @class */ (function () {
             var result = fn(this.internalGet());
             return result instanceof Option ?
                 result :
-                exports.Some(result);
+                (0, exports.Some)(result);
         }
-        return exports.None();
+        return (0, exports.None)();
     };
     /**
      * Flattens and returns a wrapped Option.
@@ -408,7 +408,7 @@ var Option = /** @class */ (function () {
      */
     Option.prototype.flatten = function () {
         if (this.isNone()) {
-            return exports.None();
+            return (0, exports.None)();
         }
         if (this.isSome() && this.get() instanceof Option) {
             return this.internalGet();
@@ -424,7 +424,7 @@ var Option = /** @class */ (function () {
     Option.prototype.filter = function (filterFn) {
         return this.isSome() && filterFn(this.internalGet()) ?
             this :
-            exports.None();
+            (0, exports.None)();
     };
     /**
      * Returns the instance if the underlying value **fails** the
@@ -432,7 +432,7 @@ var Option = /** @class */ (function () {
      */
     Option.prototype.filterNot = function (filterFn) {
         return this.isSome() && filterFn(this.internalGet()) ?
-            exports.None() :
+            (0, exports.None)() :
             this;
     };
     /**
@@ -557,8 +557,8 @@ var Option = /** @class */ (function () {
      */
     Option.of = function (val) {
         return val ?
-            exports.Some(val) :
-            exports.None();
+            (0, exports.Some)(val) :
+            (0, exports.None)();
     };
     return Option;
 }());

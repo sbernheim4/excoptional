@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1630080057342" clover="3.2.0">
-  <project timestamp="1630080057342" name="All files">
+<coverage generated="1636403810989" clover="3.2.0">
+  <project timestamp="1636403810989" name="All files">
     <metrics statements="88" coveredstatements="88" conditionals="52" coveredconditionals="52" methods="37" coveredmethods="37" elements="177" coveredelements="177" complexity="0" loc="88" ncloc="88" packages="1" files="1" classes="1"/>
-    <file name="index.ts" path="/Users/sambernheim/excoptional/src/index.ts">
+    <file name="index.ts" path="/Users/sbernheim/Excoptional/src/index.ts">
       <metrics statements="88" coveredstatements="88" conditionals="52" coveredconditionals="52" methods="37" coveredmethods="37"/>
       <line num="4" count="2" type="stmt"/>
-      <line num="6" count="55" type="stmt"/>
+      <line num="6" count="53" type="stmt"/>
       <line num="15" count="2" type="stmt"/>
-      <line num="17" count="82" type="stmt"/>
+      <line num="17" count="84" type="stmt"/>
       <line num="29" count="2" type="stmt"/>
       <line num="36" count="137" type="stmt"/>
       <line num="42" count="2" type="stmt"/>
       <line num="43" count="13" type="stmt"/>
       <line num="49" count="2" type="stmt"/>
-      <line num="50" count="134" type="stmt"/>
+      <line num="50" count="135" type="stmt"/>
       <line num="57" count="2" type="stmt"/>
       <line num="58" count="2" type="stmt"/>
       <line num="65" count="2" type="stmt"/>
@@ -21,8 +21,8 @@
       <line num="73" count="2" type="stmt"/>
       <line num="74" count="23" type="stmt"/>
       <line num="86" count="2" type="stmt"/>
-      <line num="87" count="41" type="cond" truecount="2" falsecount="0"/>
-      <line num="88" count="40" type="stmt"/>
+      <line num="87" count="42" type="cond" truecount="2" falsecount="0"/>
+      <line num="88" count="41" type="stmt"/>
       <line num="91" count="1" type="stmt"/>
       <line num="102" count="2" type="stmt"/>
       <line num="103" count="7" type="stmt"/>
@@ -58,9 +58,9 @@
       <line num="384" count="1" type="stmt"/>
       <line num="421" count="2" type="stmt"/>
       <line num="423" count="7" type="cond" truecount="2" falsecount="0"/>
-      <line num="424" count="4" type="stmt"/>
-      <line num="426" count="4" type="stmt"/>
-      <line num="431" count="3" type="stmt"/>
+      <line num="424" count="5" type="stmt"/>
+      <line num="426" count="5" type="stmt"/>
+      <line num="431" count="2" type="stmt"/>
       <line num="461" count="2" type="stmt"/>
       <line num="462" count="3" type="cond" truecount="2" falsecount="0"/>
       <line num="463" count="1" type="stmt"/>
