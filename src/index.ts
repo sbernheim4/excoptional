@@ -1,9 +1,9 @@
 /**
  * Creates and returns a None. Takes no arguments.
  */
-export const None = (): Option<never> => {
+export const None = <T>(): Option<never> => {
     // @ts-ignore
-    return new Option(undefined);
+    return new Option<T>(undefined);
 }
 /**
  * Creates and returns a Some using the provided argument as the
