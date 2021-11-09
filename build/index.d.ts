@@ -1,7 +1,7 @@
 /**
  * Creates and returns a None. Takes no arguments.
  */
-export declare const None: <T>() => Option<never>;
+export declare const None: <T>() => Option<T>;
 /**
  * Creates and returns a Some using the provided argument as the
  * underlying value.
