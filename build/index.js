@@ -556,7 +556,7 @@ var Option = /** @class */ (function () {
      * provided). Equivalent to using the Some() or None() functions.
      */
     Option.of = function (val) {
-        return val ?
+        return val !== undefined && val !== null ?
             (0, exports.Some)(val) :
             (0, exports.None)();
     };
