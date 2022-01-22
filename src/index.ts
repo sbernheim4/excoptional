@@ -190,9 +190,7 @@ This error should never be thrown.`
      */
     static lift<B, A>(fn: (
         val: A
-    ) => B): (
-        opt: Option<A>
-    ) => Option<B> {
+    ) => B): (opt: Option<A>) => Option<B> {
         return Option.map(fn)
     }
 
@@ -629,7 +627,7 @@ This error should never be thrown.`
      * provided). Equivalent to using the Some() or None() functions.
      */
     static of<A>(val?: A): Option<A> {
-        return val ?
+        return val !== undefined && val !== null?
             Some(val) :
             None();
     }

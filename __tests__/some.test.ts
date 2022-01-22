@@ -59,7 +59,7 @@ describe("Some", () => {
     test("static liftN", () => {
         const resOne = Option.liftN<number>(
             (a: number) => (b: number) => (c: number) => a + b + c,
-                Some(18),
+            Some(18),
             Some(4),
             Some(6)
         );
@@ -129,12 +129,12 @@ describe("Some", () => {
             Some(val * 2) :
             Some(val * 3)
 
-        const alwaysHalve = (val: number) => val/2;
+        const alwaysHalve = (val: number) => val / 2;
 
         const myOpt = Some(10);
 
         const someNumber = myOpt.then(maybeDoubleMaybeTriple)
-                                .then(alwaysHalve);
+            .then(alwaysHalve);
 
         expect(someNumber).toBeInstanceOf(Option);
         expect(someNumber.get()).toBeGreaterThanOrEqual(10);
@@ -265,10 +265,6 @@ describe("Some", () => {
         consoleLogSpy.mockReset();
         customLoggerMockOne.mockReset();
         customLoggerMockTwo.mockReset();
-    });
-
-    test("static of", () => {
-        expect(Option.of(30)).toStrictEqual(Some(30));
     });
 
 });

@@ -174,8 +174,4 @@ describe("None", () => {
         customLoggerMockTwo.mockReset()
     });
 
-    test("static of", () => {
-        expect(Option.of()).toStrictEqual(None());
-    });
-
 });
